@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "mod_id",
+    "id": "archeryexp",
     "version": "${version}",
     "name": "${mod_name}",
     "description": "${description}",
@@ -12,16 +12,16 @@
         "sources": "https://github.com/FabricMC/fabric-example-mod"
     },
     "license": "${license}",
-    "icon": "assets/modid/${mod_id}.png",
+    "icon": "assets/archeryexp/archeryexp.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "org.infernalstudios.archeryexp.ArcheryExpansion"
         ]
     },
     "mixins": [
-        "${mod_id}.mixins.json",
-        "${mod_id}.fabric.mixins.json"
+        "archeryexp.mixins.json",
+        "archeryexp.fabric.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=0.14",
