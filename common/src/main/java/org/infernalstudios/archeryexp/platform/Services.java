@@ -1,6 +1,6 @@
 package org.infernalstudios.archeryexp.platform;
 
-import org.infernalstudios.archeryexp.Constants;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
@@ -24,7 +24,7 @@ public class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        Constants.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
+        ArcheryExpansion.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
     }
 }

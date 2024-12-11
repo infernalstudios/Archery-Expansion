@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "org.infernalstudios.archeryexp.ArcheryExpansion"
+          "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
         ]
     },
     "mixins": [
