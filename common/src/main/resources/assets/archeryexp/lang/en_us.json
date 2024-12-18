@@ -1,0 +1,21 @@
+{
+  "item.archeryexp.gold_bow": "Gold-Reinforced Bow",
+  "item.archeryexp.iron_bow": "Iron-Reinforced Bow",
+  "item.archeryexp.diamond_bow": "Diamond-Reinforced Bow",
+  "item.archeryexp.netherite_bow": "Netherite-Reinforced Bow",
+
+  "item.archeryexp.gold_arrow": "Gold-Coated Arrow",
+  "item.archeryexp.iron_arrow": "Iron-Coated Arrow",
+  "item.archeryexp.diamond_arrow": "Diamond-Coated Arrow",
+
+  "enchantment.archeryexp.scouting": "Scouting",
+  "enchantment.archeryexp.baby_face": "Baby Face",
+  "enchantment.archeryexp.follow_through": "Follow-Through",
+  "enchantment.archeryexp.grit": "Grit",
+  "enchantment.archeryexp.shattering": "Shattering",
+
+  "enchantment.archeryexp.fragility": "Fragility",
+  "enchantment.archeryexp.pincushioning": "Pincushioning",
+
+  "effect.archeryexp.quickdraw": "Quickdraw"
+}

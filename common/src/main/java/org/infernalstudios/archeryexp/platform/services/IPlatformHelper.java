@@ -1,5 +1,12 @@
 package org.infernalstudios.archeryexp.platform.services;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+
+import java.util.function.Supplier;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +40,8 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    void registerEffect(String name, MobEffect effect);
+
+    void registerEnchantment(String name, Enchantment enchantment);
 }

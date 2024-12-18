@@ -1,0 +1,9 @@
+{
+  "cooldown": 24,
+  "base_damage": 1.4,
+  "draw_time": 18,
+  "range": 1.2,
+  "speed": 0.6,
+  "break_resist": 0.25,
+  "quickdraw": 2
+}

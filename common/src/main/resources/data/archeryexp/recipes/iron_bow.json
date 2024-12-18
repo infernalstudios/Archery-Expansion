@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gws",
+    "w s",
+    "gws"
+  ],
+  "key": {
+    "w": {
+      "item": "minecraft:stick"
+    },
+    "s": {
+      "item": "minecraft:string"
+    },
+    "g": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "archeryexp:iron_bow",
+    "count": 1
+  }
+}
