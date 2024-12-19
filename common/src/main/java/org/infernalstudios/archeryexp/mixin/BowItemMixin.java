@@ -96,7 +96,7 @@ public abstract class BowItemMixin implements BowProperties {
 
         if (this.hasSpecialProperties) {
             float shoot = getPowerForDrawTime($$7);
-            arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * 3.0f + getRange(), 1.0f);
+            arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * getRange(), 1.0f);
             arrow.setBaseDamage(getBaseDamage());
             arrow.setCritArrow(shoot == 1.0f);
 

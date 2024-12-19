@@ -1,8 +1,11 @@
 package org.infernalstudios.archeryexp;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 
