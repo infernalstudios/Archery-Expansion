@@ -1,5 +1,7 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -11,11 +13,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.PotionData;
 import org.infernalstudios.archeryexp.util.ShatteringArrowData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,10 +30,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Mixin(BowItem.class)
 public abstract class BowItemMixin implements BowProperties {
+
+    @Shadow public abstract InteractionResultHolder<ItemStack> use(Level $$0, Player $$1, InteractionHand $$2);
 
     @Unique
     private int cooldown;
@@ -42,10 +52,12 @@ public abstract class BowItemMixin implements BowProperties {
     @Unique
     private float movementSpeedMultiplier;
     @Unique
-    private int quickdrawLvl;
-
+    private float recoil;
     @Unique
     private boolean hasSpecialProperties;
+
+    @Unique
+    private List<PotionData> effects = new ArrayList<>();
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(Item.Properties properties, CallbackInfo ci) {
@@ -55,7 +67,7 @@ public abstract class BowItemMixin implements BowProperties {
         this.drawTime = 0;
         this.breakingResistance = 0;
         this.movementSpeedMultiplier = 0;
-        this.quickdrawLvl = 0;
+        this.recoil = 0;
 
         this.hasSpecialProperties = false;
     }
@@ -77,10 +89,6 @@ public abstract class BowItemMixin implements BowProperties {
     private void onReleaseUsing(ItemStack stack, Level world, LivingEntity entity, int remainingUseTicks, CallbackInfo ci,
                                 Player user, boolean $$5, ItemStack $$6, int $$7, float $$8, boolean $$9, ArrowItem arrowItem, AbstractArrow arrow) {
 
-        if (this.quickdrawLvl > 0) {
-            user.addEffect(new MobEffectInstance(ArcheryEffects.QUICKDRAW_EFFECT, 20, this.quickdrawLvl - 1, true, true));
-        }
-
         int level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
         if (level > 0) {
             stack.hurtAndBreak(level, user, (ignore) -> {});
@@ -88,18 +96,37 @@ public abstract class BowItemMixin implements BowProperties {
 
         if (this.hasSpecialProperties) {
             float shoot = getPowerForDrawTime($$7);
-            arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * 3.0f + this.range, 1.0f);
-            arrow.setBaseDamage(this.baseDamage);
+            arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * 3.0f + getRange(), 1.0f);
+            arrow.setBaseDamage(getBaseDamage());
             arrow.setCritArrow(shoot == 1.0f);
 
             level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.SHATTERING, stack);
             ((ShatteringArrowData) arrow).setShatterLevel(level);
-            user.getCooldowns().addCooldown(getItem(), this.cooldown);
+            user.getCooldowns().addCooldown(getItem(), getBowCooldown());
+
+            this.effects.forEach(potionData -> {
+                user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
+            });
+
+            applyRecoil(user, getRecoil());
         }
     }
 
+    @Unique
+    private void applyRecoil(Player user, double amount) {
+        Vec3 lookDirection = user.getViewVector(1.0f);
+        Vec3 knockbackVector = lookDirection.multiply(-amount, -amount, -amount);
+
+        user.setDeltaMovement(
+                user.getDeltaMovement().x + knockbackVector.x,
+                user.getDeltaMovement().y + knockbackVector.y,
+                user.getDeltaMovement().z + knockbackVector.z
+        );
+        user.hurtMarked = true;
+    }
+
     public float getPowerForDrawTime(int drawTime) {
-        float power = (float) drawTime / this.drawTime;
+        float power = (float) drawTime / getChargeTime();
         power = (power * power + power * 2.0F) / 3.0F;
 
         if (power > 1.0F) {
@@ -176,12 +203,22 @@ public abstract class BowItemMixin implements BowProperties {
     }
 
     @Override
-    public int getQuickDrawLvl() {
-        return this.quickdrawLvl;
+    public List<PotionData> getEffects() {
+        return this.effects;
     }
 
     @Override
-    public void setQuickDrawLvl(int quickDrawLvl) {
-        this.quickdrawLvl = quickDrawLvl;
+    public void setEffects(List<PotionData> effects) {
+        this.effects = effects;
+    }
+
+    @Override
+    public float getRecoil() {
+        return this.recoil;
+    }
+
+    @Override
+    public void setRecoil(float recoil) {
+        this.recoil = recoil;
     }
 }

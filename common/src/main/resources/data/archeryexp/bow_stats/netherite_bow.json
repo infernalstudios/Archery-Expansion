@@ -3,7 +3,19 @@
   "base_damage": 2.2,
   "draw_time": 24,
   "range": 1.8,
-  "speed": 0.25,
+  "player_speed": 0.25,
   "break_resist": 0.6,
-  "quickdraw": 4
+  "on_fire_effects": [
+    {
+      "effect": "archeryexp:quickdraw",
+      "lvl": 3,
+      "length": 20
+    },
+    {
+      "effect": "minecraft:weakness",
+      "lvl": 0,
+      "length": 40
+    }
+  ],
+  "recoil": 0.5
 }

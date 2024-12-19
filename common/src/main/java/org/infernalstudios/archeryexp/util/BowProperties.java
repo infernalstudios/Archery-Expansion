@@ -1,5 +1,7 @@
 package org.infernalstudios.archeryexp.util;
 
+import java.util.List;
+
 public interface BowProperties {
     int getBowCooldown();
     void setBowCooldown(int cooldown);
@@ -19,8 +21,11 @@ public interface BowProperties {
     float getMovementSpeedMultiplier();
     void setMovementSpeedMultiplier(float movementSpeedMultiplier);
 
-    int getQuickDrawLvl();
-    void setQuickDrawLvl(int quickDrawLvl);
+    float getRecoil();
+    void setRecoil(float recoil);
+
+    List<PotionData> getEffects();
+    void setEffects(List<PotionData> effects);
 
     void setSpecialProperties(boolean hasProperties);
 }

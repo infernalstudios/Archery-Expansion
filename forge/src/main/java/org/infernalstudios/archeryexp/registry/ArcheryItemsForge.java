@@ -15,7 +15,6 @@ import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.IronArrowItem;
-import org.infernalstudios.archeryexp.items.NetheriteBow;
 
 @Mod.EventBusSubscriber(modid = ArcheryExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ArcheryItemsForge {
@@ -37,7 +36,7 @@ public class ArcheryItemsForge {
             () -> new BowItem(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> Netherite_Bow = ITEMS.register("netherite_bow",
-            () -> new NetheriteBow(new Item.Properties().stacksTo(1)));
+            () -> new BowItem(new Item.Properties().stacksTo(1)));
 
     // Arrows
 
