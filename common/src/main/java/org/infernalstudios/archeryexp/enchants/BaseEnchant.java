@@ -23,11 +23,11 @@ public class BaseEnchant extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return super.getMaxLevel();
+        return this.maxLvl;
     }
 
     @Override
     public boolean isCurse() {
-        return super.isCurse();
+        return this.curse;
     }
 }
