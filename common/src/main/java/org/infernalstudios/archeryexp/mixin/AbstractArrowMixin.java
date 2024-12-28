@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin implements ShatteringArrowData {
 
+    @Unique
     private int shatteringLvl;
 
     @Unique

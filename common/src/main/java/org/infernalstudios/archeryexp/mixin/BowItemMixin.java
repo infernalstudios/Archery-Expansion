@@ -95,7 +95,7 @@ public abstract class BowItemMixin implements BowProperties {
         }
 
         if (this.hasSpecialProperties) {
-            float shoot = getPowerForDrawTime($$7);
+            float shoot = ArcheryExpansion.getPowerForDrawTime($$7, (BowProperties) getItem());
             arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * getRange(), 1.0f);
             arrow.setBaseDamage(getBaseDamage());
             arrow.setCritArrow(shoot == 1.0f);
@@ -123,17 +123,6 @@ public abstract class BowItemMixin implements BowProperties {
                 user.getDeltaMovement().z + knockbackVector.z
         );
         user.hurtMarked = true;
-    }
-
-    public float getPowerForDrawTime(int drawTime) {
-        float power = (float) drawTime / getChargeTime();
-        power = (power * power + power * 2.0F) / 3.0F;
-
-        if (power > 1.0F) {
-            power = 1.0F;
-        }
-
-        return power;
     }
 
     @Override
@@ -177,6 +166,11 @@ public abstract class BowItemMixin implements BowProperties {
     @Override
     public void setSpecialProperties(boolean hasProperties) {
         this.hasSpecialProperties = hasProperties;
+    }
+
+    @Override
+    public boolean hasSpecialProperties() {
+        return this.hasSpecialProperties;
     }
 
     @Override

@@ -8,10 +8,12 @@
     "AbstractArrowMixin",
     "BowItemMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "SkeletonEntityMixin"
   ],
   "client": [
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "ItemRendererMixin"
   ],
   "server": [
   ],

@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "archeryexp:item/flint_arrow_pulling_0"
-  }
-}

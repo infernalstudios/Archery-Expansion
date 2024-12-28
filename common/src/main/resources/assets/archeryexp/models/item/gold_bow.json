@@ -28,21 +28,21 @@
   "overrides": [
     {
       "predicate": {
-        "pulling": 1
+        "drawing": 1
       },
       "model": "archeryexp:item/gold_bow_pulling_0"
     },
     {
       "predicate": {
-        "pulling": 1,
-        "pull": 0.65
+        "drawing": 1,
+        "draw": 0.65
       },
       "model": "archeryexp:item/gold_bow_pulling_1"
     },
     {
       "predicate": {
-        "pulling": 1,
-        "pull": 0.9
+        "drawing": 1,
+        "draw": 0.9
       },
       "model": "archeryexp:item/gold_bow_pulling_2"
     }

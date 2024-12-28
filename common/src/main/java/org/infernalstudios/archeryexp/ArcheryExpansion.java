@@ -2,6 +2,7 @@ package org.infernalstudios.archeryexp;
 
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
+import org.infernalstudios.archeryexp.util.BowProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,5 +21,16 @@ public class ArcheryExpansion {
         ArcheryEnchants.registerEnchants();
 
         LOGGER.info("Finished Loading " + MOD_NAME);
+    }
+
+    public static float getPowerForDrawTime(int drawTime, BowProperties stack) {
+        float power = (float) drawTime / stack.getChargeTime();
+        power = (power * power + power * 2.0F) / 3.0F;
+
+        if (power > 1.0F) {
+            power = 1.0F;
+        }
+
+        return power;
     }
 }
