@@ -1,19 +1,14 @@
 package org.infernalstudios.archeryexp.mixin;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -22,26 +17,17 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.client.MockItemRenderer;
-import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.util.BowProperties;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
-
-//    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/BakedModel;isCustomRenderer()Z"))
-//    public boolean render(BakedModel instance, ItemStack stack) {
-//        return stack.is(ArcheryItems.Diamond_Bow);
-//    }
 
     @Inject(method = "render", at = @At(
             value = "INVOKE",
@@ -73,8 +59,8 @@ public class ItemRendererMixin {
 
                     int color = PotionUtils.getColor(arrow);
 
-                    ResourceLocation tipTex = new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/item/arrow_pull/tipped_arrow_pulling_tip.png");
-                    ResourceLocation shaftTex = new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/item/arrow_pull/tipped_arrow_pulling_shaft.png");
+                    ResourceLocation tipTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_tip.png");
+                    ResourceLocation shaftTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_shaft.png");
 
                     MockItemRenderer.PixelData[][] tipPixels =
                             MockItemRenderer.loadPixelData(tipTex, 16);
@@ -106,14 +92,14 @@ public class ItemRendererMixin {
 
         ResourceLocation arrowResource = BuiltInRegistries.ITEM.getKey(arrow.getItem());
 
-        ResourceLocation arrowTex = new ResourceLocation(ArcheryExpansion.MOD_ID,
-                "textures/item/arrow_pull/" + arrowResource.getPath() + "_pulling.png");
+        ResourceLocation arrowTex = new ResourceLocation(arrowResource.getNamespace(),
+                "textures/arrow_pull/" + arrowResource.getPath() + "_pulling.png");
 
         Optional<Resource> resource = resourceManager.getResource(arrowTex);
 
         if (resource.isPresent()) {
             return arrowTex;
         }
-        return new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/item/arrow_pull/arrow_pulling.png");
+        return new ResourceLocation("textures/arrow_pull/arrow_pulling.png");
     }
 }
