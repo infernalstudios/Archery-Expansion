@@ -12,6 +12,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -49,9 +50,10 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
         int hurtAmount = 0;
 
         if (entity instanceof LivingEntity living) {
+            boolean playSound = false;
             if (living.hasEffect(effect))  {
                 int hurt = (living.getEffect(effect).getAmplifier() + 1) * 2;
-                entity.playSound(SoundEvents.ARROW_HIT_PLAYER);
+                playSound = true;
                 hurtAmount += hurt;
             }
 
@@ -59,6 +61,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
 
             if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && !inHeadshotBlacklist(living)) {
                 hurtAmount += getHeadshotLevel();
+                playSound = true;
                 if (living.level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(
                             ArcheryParticles.HEADSHOT,
@@ -70,6 +73,10 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
                             0.0
                     );
                 }
+            }
+
+            if (playSound && getArrow().getOwner() instanceof Player player) {
+                entity.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, entity.getSoundSource(), 1, 1);
             }
         }
 

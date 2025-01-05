@@ -1,5 +1,6 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.ArrowProperties;
@@ -68,6 +70,24 @@ public abstract class AbstrtactSkeletonMixin {
 
             bow.getEffects().forEach(potionData -> {
                 getSkeleton().addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
+            });
+
+            bow.getParticles().forEach(particleData -> {
+                if (getSkeleton().level() instanceof ServerLevel serverLevel) {
+
+                    Vec3 o = particleData.getPosOffset();
+                    Vec3 v = particleData.getVelocity();
+
+                    serverLevel.sendParticles(
+                            particleData.getType(),
+                            getSkeleton().getX() + o.x, getSkeleton().getEyeY() + o.y, getSkeleton().getZ() + o.z,
+                            particleData.getCount(),
+                            v.x,
+                            v.y,
+                            v.z,
+                            0.0
+                    );
+                }
             });
         }
     }

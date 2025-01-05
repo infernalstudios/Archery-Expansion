@@ -63,11 +63,9 @@ public abstract class PlayerMixin implements PlayerFOV {
                 Level world = user.level();
                 List<Vec3> points = BowUtil.getBowTrajectoryPoints(user, bow);
 
-                if (world.isClientSide()) {
-                    points.forEach(p -> {
-                        world.addParticle(ArcheryParticles.ARROW_TRAIL, p.x, p.y, p.z, 0, 0, 0);
-                    });
-                }
+                points.forEach(p -> {
+                    world.addParticle(ArcheryParticles.ARROW_TRAIL, p.x, p.y, p.z, 0, 0, 0);
+                });
             }
         }
     }

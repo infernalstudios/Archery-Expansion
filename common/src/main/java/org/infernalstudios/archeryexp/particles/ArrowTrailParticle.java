@@ -8,7 +8,7 @@ public class ArrowTrailParticle extends TextureSheetParticle {
     protected ArrowTrailParticle(ClientLevel world, double x, double y, double z) {
         super(world, x, y, z);
 
-        this.lifetime = 1;
+        this.lifetime = 0;
         this.gravity = 0;
         this.quadSize = 0.25f;
         this.alpha = 0.5f;
