@@ -43,17 +43,26 @@ public class GameRendererMixin {
             PlayerFOV fovPlayer = (PlayerFOV) player;
             double fov = fovPlayer.getPlayerFOVWithoutBow();
             if (speedAttribute != null && speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) != null) {
-                this.timer = 40;
+                this.timer = 45;
                 cir.setReturnValue(fov);
             }
-            else if (timer > 0) {
+            else if (timer > 5) {
                 timer--;
                 cir.setReturnValue(fov);
             }
             else {
                 double currentFOV = (double) this.minecraft.options.fov().get().intValue();
                 currentFOV *= (double) Mth.lerp(partialTicks, this.oldFov, this.fov);
-                fovPlayer.setPlayerFOVWithoutBow(currentFOV);
+
+                if (Math.abs(fov - currentFOV) <= 0.1 || timer <= 0) {
+                    fovPlayer.setPlayerFOVWithoutBow(currentFOV);
+                }
+                else {
+                    timer--;
+                    double newFOV = Mth.lerp(partialTicks, fov, currentFOV);
+                    fovPlayer.setPlayerFOVWithoutBow(newFOV);
+                    cir.setReturnValue(newFOV);
+                }
             }
         }
     }
