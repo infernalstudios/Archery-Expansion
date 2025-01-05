@@ -13,6 +13,8 @@ public class ArcheryItems {
 
     public static Item Netherite_Bow;
 
+    public static Item Wooden_Bow;
+
     // Arrows
 
     public static Item Gold_Arrow;

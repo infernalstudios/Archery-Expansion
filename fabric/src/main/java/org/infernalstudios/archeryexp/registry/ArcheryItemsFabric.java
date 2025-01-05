@@ -9,7 +9,6 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
-import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.IronArrowItem;
@@ -24,6 +23,7 @@ public class ArcheryItemsFabric {
         entry.accept(Iron_Bow);
         entry.accept(Diamond_Bow);
         entry.accept(Netherite_Bow);
+        entry.accept(Wooden_Bow);
 
         entry.accept(Gold_Arrow);
         entry.accept(Iron_Arrow);
@@ -40,16 +40,19 @@ public class ArcheryItemsFabric {
         // BOWS
 
         Gold_Bow = registerItem("gold_bow",
-                new BowItem(new Item.Properties().stacksTo(1)));
+                new BowItem(new Item.Properties().stacksTo(1).durability(80)));
 
         Iron_Bow = registerItem("iron_bow",
-                new BowItem(new Item.Properties().stacksTo(1)));
+                new BowItem(new Item.Properties().stacksTo(1).durability(240)));
 
         Diamond_Bow = registerItem("diamond_bow",
-                new BowItem(new Item.Properties().stacksTo(1)));
+                new BowItem(new Item.Properties().stacksTo(1).durability(528)));
 
         Netherite_Bow = registerItem("netherite_bow",
-                new BowItem(new Item.Properties().stacksTo(1)));
+                new BowItem(new Item.Properties().stacksTo(1).durability(592)));
+
+        Wooden_Bow = registerItem("wooden_bow",
+                new BowItem(new Item.Properties().stacksTo(1).durability(112)));
 
         // ARROWS
 

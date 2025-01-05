@@ -27,16 +27,19 @@ public class ArcheryItemsForge {
     // Wood = 384
 
     public static final RegistryObject<Item> Gold_Bow = ITEMS.register("gold_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1)));
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(80)));
 
     public static final RegistryObject<Item> Iron_Bow = ITEMS.register("iron_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1)));
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(240)));
 
     public static final RegistryObject<Item> Diamond_Bow = ITEMS.register("diamond_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1)));
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(528)));
 
     public static final RegistryObject<Item> Netherite_Bow = ITEMS.register("netherite_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1)));
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(592)));
+
+    public static final RegistryObject<Item> Wooden_Bow = ITEMS.register("wooden_bow",
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(112)));
 
     // Arrows
 
@@ -53,7 +56,6 @@ public class ArcheryItemsForge {
 
     public static void registerItems(IEventBus eventBus) {
         ITEMS.register(eventBus);
-        ArcheryExpansion.LOGGER.debug("Registering Items for" + ArcheryExpansion.MOD_ID);
     }
 
     public static void registerItemsCommon() {
@@ -61,6 +63,7 @@ public class ArcheryItemsForge {
         ArcheryItems.Iron_Bow = Iron_Bow.get();
         ArcheryItems.Diamond_Bow = Diamond_Bow.get();
         ArcheryItems.Netherite_Bow = Netherite_Bow.get();
+        ArcheryItems.Wooden_Bow = Wooden_Bow.get();
 
         ArcheryItems.Gold_Arrow = Gold_Arrow.get();
         ArcheryItems.Iron_Arrow = Iron_Arrow.get();
@@ -74,6 +77,7 @@ public class ArcheryItemsForge {
             event.accept(Iron_Bow.get());
             event.accept(Diamond_Bow.get());
             event.accept(Netherite_Bow.get());
+            event.accept(Wooden_Bow.get());
 
             event.accept(Gold_Arrow.get());
             event.accept(Iron_Arrow.get());

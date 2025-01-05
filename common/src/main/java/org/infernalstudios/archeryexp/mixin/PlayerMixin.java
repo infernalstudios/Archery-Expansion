@@ -1,5 +1,8 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffect;
@@ -16,19 +19,57 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
+import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.BowUtil;
+import org.infernalstudios.archeryexp.util.PlayerFOV;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(Player.class)
-public abstract class PlayerMixin {
+public abstract class PlayerMixin implements PlayerFOV {
+
+    private double lastFOV;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void init(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, CallbackInfo ci) {
+        this.lastFOV = 0;
+    }
 
     @Unique
     private Player getPlayer() {
         return (Player) (Object) this;
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void playerTick(CallbackInfo ci) {
+
+        Player user = getPlayer();
+        ItemStack bowStack = user.getUseItem();
+
+        if (user.isUsingItem() && bowStack.getItem() instanceof BowItem bow) {
+
+            int level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.TRAJECTORY, bowStack);
+
+            if (level > 0) {
+                Level world = user.level();
+                List<Vec3> points = BowUtil.getBowTrajectoryPoints(user, bow);
+
+                if (world.isClientSide()) {
+                    points.forEach(p -> {
+                        world.addParticle(ArcheryParticles.ARROW_TRAIL, p.x, p.y, p.z, 0, 0, 0);
+                    });
+                }
+            }
+        }
     }
 
     @Inject(method = "attack", at = @At("HEAD"))
@@ -81,4 +122,13 @@ public abstract class PlayerMixin {
         return maxDurability - currentDamage;
     }
 
+    @Override
+    public double getPlayerFOVWithoutBow() {
+        return this.lastFOV;
+    }
+
+    @Override
+    public void setPlayerFOVWithoutBow(double fov) {
+        this.lastFOV = fov;
+    }
 }

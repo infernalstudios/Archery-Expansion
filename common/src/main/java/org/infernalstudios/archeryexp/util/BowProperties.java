@@ -27,6 +27,9 @@ public interface BowProperties {
     List<PotionData> getEffects();
     void setEffects(List<PotionData> effects);
 
+    List<ParticleData> getParticles();
+    void setParticles(List<ParticleData> particles);
+
     boolean hasSpecialProperties();
     void setSpecialProperties(boolean hasProperties);
 }

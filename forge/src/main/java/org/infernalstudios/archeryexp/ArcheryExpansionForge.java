@@ -1,5 +1,6 @@
 package org.infernalstudios.archeryexp;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +10,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,10 +21,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.BowStatsLoader;
+import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.particles.ArrowTrailParticle;
+import org.infernalstudios.archeryexp.particles.HeadshotParticle;
 import org.infernalstudios.archeryexp.platform.ForgePlatformHelper;
 import org.infernalstudios.archeryexp.registry.ArcheryEntityTypesForge;
 import org.infernalstudios.archeryexp.registry.ArcheryItemsForge;
+import org.infernalstudios.archeryexp.registry.ArcheryParticlesForge;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.BowUtil;
 
 import java.util.List;
 
@@ -39,17 +46,20 @@ public class ArcheryExpansionForge {
 
         ForgePlatformHelper.register(modEventBus);
 
+        ArcheryParticlesForge.registerParticles(modEventBus);
         modEventBus.addListener(this::commonSetup);
         ArcheryExpansion.init();
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
         ArcheryItemsForge.registerItemsCommon();
+        ArcheryParticlesForge.registerParticlesCommon();
         ArcheryEntityTypesForge.registerEntitiesCommon();
     }
 
     @Mod.EventBusSubscriber(modid = ArcheryExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             String path = "textures/entity/projectiles/";
@@ -60,7 +70,8 @@ public class ArcheryExpansionForge {
             EntityRenderers.register(ArcheryEntityTypesForge.Diamond_Arrow.get(), (ctx) ->
                     new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "diamond_arrow.png")));
 
-            List<Item> items = List.of(ArcheryItems.Gold_Bow, ArcheryItems.Iron_Bow, ArcheryItems.Diamond_Bow, ArcheryItems.Netherite_Bow, Items.BOW);
+            List<Item> items = List.of(ArcheryItems.Gold_Bow, ArcheryItems.Iron_Bow, ArcheryItems.Diamond_Bow, ArcheryItems.Netherite_Bow,
+                    ArcheryItems.Wooden_Bow, Items.BOW);
 
             items.forEach(item -> {
                 ItemProperties.register(item,
@@ -74,9 +85,15 @@ public class ArcheryExpansionForge {
 
                     BowProperties properties = (BowProperties) stack.getItem();
 
-                    return ArcheryExpansion.getPowerForDrawTime(stack.getUseDuration() - entity.getUseItemRemainingTicks(), properties);
+                    return BowUtil.getPowerForDrawTime(stack.getUseDuration() - entity.getUseItemRemainingTicks(), properties);
                 });
             });
+        }
+
+        @SubscribeEvent
+        public static void registerParticles(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ArcheryParticlesForge.ARROW_TRAIL.get(), ArrowTrailParticle.Factory::new);
+            event.registerSpriteSet(ArcheryParticlesForge.HEADSHOT.get(), HeadshotParticle.Factory::new);
         }
     }
 

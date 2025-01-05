@@ -1,0 +1,6 @@
+{
+    "parent": "item/bow",
+    "textures": {
+        "layer0": "archeryexp:item/wooden_bow_pulling_2"
+    }
+}

@@ -1,22 +1,26 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.EntityHitResult;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
-import org.infernalstudios.archeryexp.util.ShatteringArrowData;
-import org.jetbrains.annotations.Nullable;
+import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.util.ArrowProperties;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,10 +28,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractArrow.class)
-public abstract class AbstractArrowMixin implements ShatteringArrowData {
+public abstract class AbstractArrowMixin implements ArrowProperties {
 
     @Unique
     private int shatteringLvl;
+    @Unique
+    private int headshotLvl;
 
     @Unique
     private AbstractArrow getArrow() {
@@ -40,12 +46,39 @@ public abstract class AbstractArrowMixin implements ShatteringArrowData {
     )
     private boolean modifyBaseDamage(Entity entity, DamageSource damageSource, float originalDamage) {
         MobEffect effect = ArcheryEffects.QUICKDRAW_EFFECT;
-        if (entity instanceof LivingEntity living && living.hasEffect(effect)) {
-            int hurt = (living.getEffect(effect).getAmplifier() + 1) * 2;
-            return entity.hurt(damageSource, originalDamage + hurt);
+        int hurtAmount = 0;
+
+        if (entity instanceof LivingEntity living) {
+            if (living.hasEffect(effect))  {
+                int hurt = (living.getEffect(effect).getAmplifier() + 1) * 2;
+                entity.playSound(SoundEvents.ARROW_HIT_PLAYER);
+                hurtAmount += hurt;
+            }
+
+            double headPosition = living.position().add(0.0, living.getDimensions(living.getPose()).height * 0.85, 0.0).y - 0.17;
+
+            if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && !inHeadshotBlacklist(living)) {
+                hurtAmount += getHeadshotLevel();
+                if (living.level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(
+                            ArcheryParticles.HEADSHOT,
+                            living.getX(), living.getEyeY() + 0.5, living.getZ(),
+                            1,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0
+                    );
+                }
+            }
         }
 
-        return entity.hurt(damageSource, originalDamage);
+        return entity.hurt(damageSource, originalDamage + hurtAmount);
+    }
+
+    @Unique
+    private boolean inHeadshotBlacklist(LivingEntity entity) {
+        return entity instanceof Animal || entity instanceof WaterAnimal || entity instanceof Slime || entity instanceof EnderDragon;
     }
 
     @Inject(method = "onHitEntity", at = @At("HEAD"))
@@ -58,8 +91,8 @@ public abstract class AbstractArrowMixin implements ShatteringArrowData {
                     stack.hurtAndBreak(2 * level, target, (ignore) -> {});
                 }
 
-                if (getShatterLevel() > 0 && target.getRandom().nextInt(100) < 5 && target.canBeHitByProjectile()) {
-                    int damage = getDurabilityLeft(stack) - Math.round(getDurabilityLeft(stack) * 0.05f);
+                if (getShatterLevel() > 0 && target.getRandom().nextInt(100) < 5 * ((getShatterLevel() * 0.5) + 0.5) && target.canBeHitByProjectile()) {
+                    int damage = Math.round(getDurabilityLeft(stack) * 0.05f);
                     stack.hurtAndBreak(damage, target, (ignore) -> {});
                 }
             });
@@ -90,6 +123,16 @@ public abstract class AbstractArrowMixin implements ShatteringArrowData {
     @Override
     public void setShatterLevel(int lvl) {
         this.shatteringLvl = lvl;
+    }
+
+    @Override
+    public void setHeadshotLevel(int lvl) {
+        this.headshotLvl = lvl;
+    }
+
+    @Override
+    public int getHeadshotLevel() {
+        return this.headshotLvl;
     }
 
     @Unique

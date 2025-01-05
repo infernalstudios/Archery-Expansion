@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "archeryexp:item/wooden_bow"
+    "layer0": "archeryexp:item/cursed_bow"
   },
   "display": {
     "thirdperson_righthand": {

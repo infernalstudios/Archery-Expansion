@@ -9,7 +9,7 @@
     "BowItemMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "SkeletonEntityMixin"
+    "AbstrtactSkeletonMixin"
   ],
   "client": [
     "GameRendererMixin",

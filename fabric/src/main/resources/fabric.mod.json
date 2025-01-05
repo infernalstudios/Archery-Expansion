@@ -19,7 +19,7 @@
           "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
         ],
         "client": [
-            "org.infernalstudios.archeryexp.ArcheryExpansionFabricClient"
+            "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
         ]
     },
     "mixins": [

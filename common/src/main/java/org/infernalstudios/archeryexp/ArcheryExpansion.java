@@ -1,11 +1,22 @@
 package org.infernalstudios.archeryexp;
 
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
+import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ArcheryExpansion {
@@ -21,16 +32,5 @@ public class ArcheryExpansion {
         ArcheryEnchants.registerEnchants();
 
         LOGGER.info("Finished Loading " + MOD_NAME);
-    }
-
-    public static float getPowerForDrawTime(int drawTime, BowProperties stack) {
-        float power = (float) drawTime / stack.getChargeTime();
-        power = (power * power + power * 2.0F) / 3.0F;
-
-        if (power > 1.0F) {
-            power = 1.0F;
-        }
-
-        return power;
     }
 }

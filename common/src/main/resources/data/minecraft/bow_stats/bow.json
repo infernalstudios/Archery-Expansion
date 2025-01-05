@@ -8,8 +8,21 @@
   "on_fire_effects": [
     {
       "effect": "archeryexp:quickdraw",
-      "lvl": 0,
-      "length": 20
+      "lvl": 5,
+      "length": 30
+    }
+  ],
+  "on_fire_particles": [
+    {
+      "effect": "minecraft:firework",
+      "count": "10",
+      "xoffset": "0",
+      "yoffset": "0",
+      "zoffset": "0",
+      "xvel": "0",
+      "yvel": "0",
+      "zvel": "0",
+      "speed": 0
     }
   ],
   "recoil": 0.0

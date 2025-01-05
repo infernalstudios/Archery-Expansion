@@ -6,10 +6,12 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.util.PlayerFOV;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,6 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
+    @Shadow private float fov;
+    @Shadow @Final private Minecraft minecraft;
+    @Shadow private float oldFov;
     @Unique
     private int timer = 0;
 
@@ -35,13 +40,20 @@ public class GameRendererMixin {
         Minecraft mc = Minecraft.getInstance();
         if (mc.getCameraEntity() instanceof Player player) {
             AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
-            double baseFov = mc.options.fov().get();
+            PlayerFOV fovPlayer = (PlayerFOV) player;
+            double fov = fovPlayer.getPlayerFOVWithoutBow();
             if (speedAttribute != null && speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) != null) {
-                this.timer = 5;
-                cir.setReturnValue(baseFov);
+                this.timer = 40;
+                cir.setReturnValue(fov);
             }
             else if (timer > 0) {
-                cir.setReturnValue(baseFov);
+                timer--;
+                cir.setReturnValue(fov);
+            }
+            else {
+                double currentFOV = (double) this.minecraft.options.fov().get().intValue();
+                currentFOV *= (double) Mth.lerp(partialTicks, this.oldFov, this.fov);
+                fovPlayer.setPlayerFOVWithoutBow(currentFOV);
             }
         }
     }

@@ -13,7 +13,9 @@ public class ArcheryEnchants {
     public static final Enchantment BABY_FACE = new BaseEnchant(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR_FEET, new EquipmentSlot[]{EquipmentSlot.FEET}, 2);
     public static final Enchantment FOLLOW_THROUGH = new BaseEnchant(Enchantment.Rarity.RARE, EnchantmentCategory.ARMOR_CHEST, new EquipmentSlot[]{EquipmentSlot.CHEST}, 2);
     public static final Enchantment GRIT = new BaseEnchant(Enchantment.Rarity.RARE, EnchantmentCategory.ARMOR_CHEST, new EquipmentSlot[]{EquipmentSlot.CHEST}, 2);
-    public static final Enchantment SHATTERING = new BaseEnchant(Enchantment.Rarity.COMMON, EnchantmentCategory.BOW, new EquipmentSlot[]{EquipmentSlot.HEAD}, 5);
+    public static final Enchantment SHATTERING = new BaseEnchant(Enchantment.Rarity.COMMON, EnchantmentCategory.BOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND}, 5);
+    public static final Enchantment TRAJECTORY = new BaseEnchant(Enchantment.Rarity.RARE, EnchantmentCategory.BOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND}, 1);
+    public static final Enchantment HEADSHOT = new HeadshotEnchant(Enchantment.Rarity.RARE, EnchantmentCategory.BOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND}, 5);
 
 
     public static final Enchantment FRAGILITY = new BaseEnchant(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR,
@@ -26,6 +28,8 @@ public class ArcheryEnchants {
         register("follow_through", FOLLOW_THROUGH);
         register("grit", GRIT);
         register("shattering", SHATTERING);
+        register("trajectory", TRAJECTORY);
+        register("headshot", HEADSHOT);
 
 
         register("fragility", FRAGILITY);

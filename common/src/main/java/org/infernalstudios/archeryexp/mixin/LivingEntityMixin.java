@@ -1,5 +1,6 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,10 +15,12 @@ import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.PlayerFOV;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
 
@@ -39,6 +42,7 @@ public abstract class LivingEntityMixin {
 
             if (speedAttribute != null) {
                 if (speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) == null) {
+
                     AttributeModifier speedModifier = new AttributeModifier(
                             ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID,
                             "Bow Speed Boost",
@@ -78,4 +82,5 @@ public abstract class LivingEntityMixin {
             }
         });
     }
+
 }

@@ -1,6 +1,6 @@
 {
     "parent": "item/bow",
     "textures": {
-        "layer0": "archeryexp:item/wooden_bow_pulling_0"
+        "layer0": "archeryexp:item/cursed_bow_pulling_0"
     }
 }

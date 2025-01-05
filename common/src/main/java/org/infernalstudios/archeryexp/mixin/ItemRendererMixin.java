@@ -9,6 +9,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.client.MockItemRenderer;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.BowUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,53 +40,60 @@ public class ItemRendererMixin {
     )
     public void renderItem(ItemStack stack, ItemDisplayContext context, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int light, int $$6, BakedModel model, CallbackInfo ci) {
 
-        Player player = Minecraft.getInstance().player;
+        Minecraft minecraft = Minecraft.getInstance();
 
-        if (stack.getItem() instanceof BowItem && ((BowProperties) stack.getItem()).hasSpecialProperties() &&
-                player.isUsingItem() && player.getUseItem() == stack) {
+        if (minecraft.level != null) {
+            for (Entity entity : minecraft.level.entitiesForRendering()) {
+                if (entity instanceof LivingEntity user) {
+                    if (stack.getItem() instanceof BowItem && ((BowProperties) stack.getItem()).hasSpecialProperties() &&
+                            user.isUsingItem() && user.getUseItem() == stack) {
 
-            ItemStack arrow = player.getProjectile(stack);
+                        ItemStack arrow = user.getProjectile(stack);
 
-            if (!arrow.isEmpty()) {
-                float pull = ArcheryExpansion.getPowerForDrawTime(stack.getUseDuration() - player.getUseItemRemainingTicks(), (BowProperties) stack.getItem());
+                        if (!arrow.isEmpty()) {
+                            float pull = BowUtil.getPowerForDrawTime(stack.getUseDuration() - user.getUseItemRemainingTicks(), (BowProperties) stack.getItem());
 
-                float posOffset = pull >= 0.9f ? 0.125f : (pull >= 0.65f ? 0.0625f : 0);
+                            float posOffset = pull >= 0.9f ? 0.125f : (pull >= 0.65f ? 0.0625f : 0);
 
-                poseStack.pushPose();
+                            poseStack.pushPose();
 
-                poseStack.scale(-1.01f, -1.01f, -1.01f);
+                            poseStack.scale(-1.01f, -1.01f, -1.01f);
 
-                poseStack.translate(-0.995f - posOffset, -0.995f + posOffset, -0.495f);
+                            poseStack.translate(-0.995f - posOffset, -0.995f + posOffset, -0.495f);
 
-                if (arrow.is(Items.TIPPED_ARROW)) {
+                            if (arrow.is(Items.TIPPED_ARROW)) {
 
-                    int color = PotionUtils.getColor(arrow);
+                                int color = PotionUtils.getColor(arrow);
 
-                    ResourceLocation tipTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_tip.png");
-                    ResourceLocation shaftTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_shaft.png");
+                                ResourceLocation tipTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_tip.png");
+                                ResourceLocation shaftTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_shaft.png");
 
-                    MockItemRenderer.PixelData[][] tipPixels =
-                            MockItemRenderer.loadPixelData(tipTex, 16);
+                                MockItemRenderer.PixelData[][] tipPixels =
+                                        MockItemRenderer.loadPixelData(tipTex, 16);
 
-                    MockItemRenderer.renderExtrudedSprite(tipPixels, 0.065f, poseStack, bufferSource, light, tipTex, color);
+                                MockItemRenderer.renderExtrudedSprite(tipPixels, 0.065f, poseStack, bufferSource, light, tipTex, color);
 
-                    MockItemRenderer.PixelData[][] shaftPixels =
-                            MockItemRenderer.loadPixelData(shaftTex, 16);
+                                MockItemRenderer.PixelData[][] shaftPixels =
+                                        MockItemRenderer.loadPixelData(shaftTex, 16);
 
-                    MockItemRenderer.renderExtrudedSprite(shaftPixels, 0.065f, poseStack, bufferSource, light, shaftTex, -1);
+                                MockItemRenderer.renderExtrudedSprite(shaftPixels, 0.065f, poseStack, bufferSource, light, shaftTex, -1);
+                            } else {
+                                ResourceLocation arrowTex = getArrowTexture(arrow);
+
+                                MockItemRenderer.PixelData[][] arrowPixels =
+                                        MockItemRenderer.loadPixelData(arrowTex, 16);
+
+                                MockItemRenderer.renderExtrudedSprite(arrowPixels, 0.065f, poseStack, bufferSource, light, arrowTex, -1);
+                            }
+
+                            poseStack.popPose();
+                        }
+
+                    }
                 }
-                else {
-                    ResourceLocation arrowTex = getArrowTexture(arrow);
-
-                    MockItemRenderer.PixelData[][] arrowPixels =
-                            MockItemRenderer.loadPixelData(arrowTex, 16);
-
-                    MockItemRenderer.renderExtrudedSprite(arrowPixels, 0.065f, poseStack, bufferSource, light, arrowTex, -1);
-                }
-
-                poseStack.popPose();
             }
         }
+
     }
 
     @Unique

@@ -7,8 +7,10 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.ParticleData;
 import org.infernalstudios.archeryexp.util.PotionData;
 
 import java.io.InputStream;
@@ -48,13 +50,13 @@ public class BowStatsLoader {
                         float recoil = json.has("recoil") ? json.get("recoil").getAsFloat() : 0.0f;
 
                         List<PotionData> effects = new ArrayList<>();
-                        boolean listFilled = false;
+                        boolean potlistFilled = false;
 
                         if (json.has("on_fire_effects") && json.get("on_fire_effects").isJsonArray()) {
                             JsonArray potionArray = json.getAsJsonArray("on_fire_effects");
 
                             if (!potionArray.isEmpty()) {
-                                listFilled = true;
+                                potlistFilled = true;
                                 for (JsonElement potionElement : potionArray) {
                                     if (potionElement.isJsonObject()) {
                                         JsonObject potionObj = potionElement.getAsJsonObject();
@@ -70,6 +72,36 @@ public class BowStatsLoader {
                             }
                         }
 
+                        List<ParticleData> particles = new ArrayList<>();
+                        boolean parlistFilled = false;
+
+                        if (json.has("on_fire_particles") && json.get("on_fire_particles").isJsonArray()) {
+                            JsonArray particleArray = json.getAsJsonArray("on_fire_particles");
+
+                            if (!particleArray.isEmpty()) {
+                                parlistFilled = true;
+                                for (JsonElement particleElement : particleArray) {
+                                    if (particleElement.isJsonObject()) {
+                                        JsonObject particleObj = particleElement.getAsJsonObject();
+
+                                        String effect = particleObj.has("effect") ? particleObj.get("effect").getAsString() : "minecraft:empty";
+                                        float x = particleObj.has("xoffset") ? particleObj.get("xoffset").getAsFloat() : 0;
+                                        float y = particleObj.has("yoffset") ? particleObj.get("yoffset").getAsFloat() : 0;
+                                        float z = particleObj.has("zoffset") ? particleObj.get("zoffset").getAsFloat() : 0;
+
+                                        float vx = particleObj.has("xvel") ? particleObj.get("xvel").getAsFloat() : 0;
+                                        float vy = particleObj.has("yvel") ? particleObj.get("yvel").getAsFloat() : 0;
+                                        float vz = particleObj.has("zvel") ? particleObj.get("zvel").getAsFloat() : 0;
+
+                                        int count = particleObj.has("count") ? particleObj.get("count").getAsInt() : 0;
+
+                                        ParticleData data = new ParticleData(effect, new Vec3(x, y, z), new Vec3(vx, vy, vz), count);
+                                        particles.add(data);
+                                    }
+                                }
+                            }
+                        }
+
                         ((BowProperties) bowItem).setSpecialProperties(true);
                         ((BowProperties) bowItem).setBowCooldown(cooldown);
                         ((BowProperties) bowItem).setBaseDamage(base_damage);
@@ -79,8 +111,11 @@ public class BowStatsLoader {
                         ((BowProperties) bowItem).setMovementSpeedMultiplier(speed);
                         ((BowProperties) bowItem).setRecoil(recoil);
 
-                        if (listFilled) {
+                        if (potlistFilled) {
                             ((BowProperties) bowItem).setEffects(effects);
+                        }
+                        if (parlistFilled) {
+                            ((BowProperties) bowItem).setParticles(particles);
                         }
                         ArcheryExpansion.LOGGER.info("Loaded Bow Stats for " + itemId.toString());
                     }

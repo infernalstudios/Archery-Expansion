@@ -26,8 +26,7 @@ public class MockItemRenderer {
     }
 
     public static PixelData[][] loadPixelData(ResourceLocation texture, int alphaThreshold) {
-        try (InputStream input = Minecraft.getInstance().getResourceManager().getResource(texture).get().open()
-        ) {
+        try (InputStream input = Minecraft.getInstance().getResourceManager().getResource(texture).get().open()) {
             BufferedImage image = ImageIO.read(input);
             int width  = image.getWidth();
             int height = image.getHeight();
@@ -173,28 +172,30 @@ public class MockItemRenderer {
     }
 
     private static float[][] computeVerticalSliceUV(float x, float y0, float y1, float width, float height) {
-        float u = x / width;
+        float u0 = x / width;
+        float u1 = (x + 1) / width;
         float v0 = y0 / height;
         float v1 = y1 / height;
 
         return new float[][] {
-                {u, v0},
-                {u, v0},
-                {u, v1},
-                {u, v1}
+                {u0, v0},
+                {u1, v0},
+                {u1, v1},
+                {u0, v1}
         };
     }
 
     private static float[][] computeHorizontalSliceUV(float x0, float x1, float y, float width, float height) {
         float u0 = x0 / width;
         float u1 = x1 / width;
-        float v = y / height;
+        float v0 = y / height;
+        float v1 = (y + 1) / height;
 
         return new float[][] {
-                {u0, v},
-                {u1, v},
-                {u1, v},
-                {u0, v}
+                {u0, v0},
+                {u1, v0},
+                {u1, v1},
+                {u0, v1}
         };
     }
 

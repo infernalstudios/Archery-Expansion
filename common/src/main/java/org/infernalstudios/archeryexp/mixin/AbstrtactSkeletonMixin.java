@@ -1,21 +1,18 @@
 package org.infernalstudios.archeryexp.mixin;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.util.BowProperties;
-import org.infernalstudios.archeryexp.util.ShatteringArrowData;
+import org.infernalstudios.archeryexp.util.ArrowProperties;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,11 +24,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(AbstractSkeleton.class)
-public class SkeletonEntityMixin {
+public abstract class AbstrtactSkeletonMixin {
 
     @Shadow @Final private RangedBowAttackGoal<AbstractSkeleton> bowGoal;
 
     @Shadow @Final private MeleeAttackGoal meleeGoal;
+
+    @Shadow public abstract void setItemSlot(EquipmentSlot $$0, ItemStack $$1);
 
     @Unique
     private AbstractSkeleton getSkeleton() {
@@ -62,7 +61,10 @@ public class SkeletonEntityMixin {
             arrow.setBaseDamage(bow.getBaseDamage());
 
             level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.SHATTERING, stack);
-            ((ShatteringArrowData) arrow).setShatterLevel(level);
+            ((ArrowProperties) arrow).setShatterLevel(level);
+
+            level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.HEADSHOT, stack);
+            ((ArrowProperties) arrow).setHeadshotLevel(level);
 
             bow.getEffects().forEach(potionData -> {
                 getSkeleton().addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));

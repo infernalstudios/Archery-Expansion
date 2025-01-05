@@ -1,5 +1,7 @@
 package org.infernalstudios.archeryexp.platform;
 
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
@@ -8,6 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
