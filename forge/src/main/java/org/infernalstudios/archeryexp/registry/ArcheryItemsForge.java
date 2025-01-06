@@ -36,7 +36,7 @@ public class ArcheryItemsForge {
             () -> new BowItem(new Item.Properties().stacksTo(1).durability(528)));
 
     public static final RegistryObject<Item> Netherite_Bow = ITEMS.register("netherite_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(592)));
+            () -> new BowItem(new Item.Properties().stacksTo(1).durability(592).fireResistant()));
 
     public static final RegistryObject<Item> Wooden_Bow = ITEMS.register("wooden_bow",
             () -> new BowItem(new Item.Properties().stacksTo(1).durability(112)));

@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -72,7 +73,7 @@ public abstract class PlayerMixin implements PlayerFOV {
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void applyQuickshot(Entity target, CallbackInfo ci) {
-        if (isCritting(target)) {
+        if (isCritting(target) && getPlayer().getMainHandItem().is(ItemTags.AXES)) {
             LivingEntity living = (LivingEntity) target;
 
             living.getHandSlots().forEach(stack -> {

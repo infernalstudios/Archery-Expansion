@@ -49,7 +49,7 @@ public class ArcheryItemsFabric {
                 new BowItem(new Item.Properties().stacksTo(1).durability(528)));
 
         Netherite_Bow = registerItem("netherite_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(592)));
+                new BowItem(new Item.Properties().stacksTo(1).durability(592).fireResistant()));
 
         Wooden_Bow = registerItem("wooden_bow",
                 new BowItem(new Item.Properties().stacksTo(1).durability(112)));

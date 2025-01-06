@@ -6,14 +6,15 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractArrowMixin",
+    "AbstrtactSkeletonMixin",
     "BowItemMixin",
     "LivingEntityMixin",
-    "PlayerMixin",
-    "AbstrtactSkeletonMixin"
+    "PlayerMixin"
   ],
   "client": [
-    "GameRendererMixin",
-    "ItemRendererMixin"
+    "AbstractClientPlayerMixin",
+    "ItemRendererMixin",
+    "LocalPlayerMixin"
   ],
   "server": [
   ],

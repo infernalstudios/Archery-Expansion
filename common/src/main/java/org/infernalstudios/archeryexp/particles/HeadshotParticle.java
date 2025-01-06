@@ -9,18 +9,24 @@ public class HeadshotParticle extends TextureSheetParticle {
         super(world, x, y, z);
 
         this.quadSize = 1;
-        this.lifetime = 30;
-        this.gravity = -1;
+        this.lifetime = 50;
+        this.gravity = -0.5f;
+        this.hasPhysics = false;
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.gravity += 0.2f;
+        this.gravity += 0.1f;
 
         if (this.quadSize > 0) {
-            this.quadSize -= 0.05f;
+            this.quadSize -= 0.025f;
         }
+    }
+
+    @Override
+    protected int getLightColor(float $$0) {
+        return 15728880;
     }
 
     @Override
