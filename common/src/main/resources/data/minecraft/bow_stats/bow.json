@@ -19,9 +19,9 @@
       "xoffset": "0",
       "yoffset": "0",
       "zoffset": "0",
-      "xvel": "0",
-      "yvel": "0",
-      "zvel": "0",
+      "xvel": "1",
+      "yvel": "1",
+      "zvel": "1",
       "speed": 0
     }
   ],

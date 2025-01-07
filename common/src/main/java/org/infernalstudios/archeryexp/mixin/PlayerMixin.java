@@ -12,6 +12,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
@@ -22,6 +25,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.util.BowProperties;
@@ -56,7 +60,23 @@ public abstract class PlayerMixin implements PlayerFOV {
         Player user = getPlayer();
         ItemStack bowStack = user.getUseItem();
 
+        AttributeInstance speedAttribute = getPlayer().getAttribute(Attributes.MOVEMENT_SPEED);
+
         if (user.isUsingItem() && bowStack.getItem() instanceof BowItem bow) {
+
+            BowProperties bp = (BowProperties) bow;
+
+            if (speedAttribute != null && bp.hasSpecialProperties()) {
+                if (speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) == null) {
+                    AttributeModifier speedModifier = new AttributeModifier(
+                            ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID,
+                            "Bow Speed Boost",
+                            ((BowProperties) bow).getMovementSpeedMultiplier() - 1,
+                            AttributeModifier.Operation.MULTIPLY_TOTAL
+                    );
+                    speedAttribute.addTransientModifier(speedModifier);
+                }
+            }
 
             int level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.TRAJECTORY, bowStack);
 
@@ -67,6 +87,11 @@ public abstract class PlayerMixin implements PlayerFOV {
                 points.forEach(p -> {
                     world.addParticle(ArcheryParticles.ARROW_TRAIL, p.x, p.y, p.z, 0, 0, 0);
                 });
+            }
+        }
+        else if (speedAttribute != null) {
+            if (speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) != null) {
+                speedAttribute.removeModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID);
             }
         }
     }

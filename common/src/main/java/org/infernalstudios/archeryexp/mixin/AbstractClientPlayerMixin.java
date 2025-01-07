@@ -5,9 +5,13 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -33,7 +37,25 @@ public abstract class AbstractClientPlayerMixin {
     private void bowSlowdown(CallbackInfoReturnable<Float> cir, float fov) {
         ItemStack item = getPlayer().getUseItem();
         if (getPlayer().isUsingItem()) {
-            if (item.getItem() instanceof BowItem && !item.is(Items.BOW)) {
+            if (item.getItem() instanceof BowItem) {
+
+                BowProperties bow = (BowProperties) item.getItem();
+
+                AttributeInstance speedAttribute = getPlayer().getAttribute(Attributes.MOVEMENT_SPEED);
+
+                if (speedAttribute != null) {
+                    AttributeModifier drawModifier = speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID);
+
+                    if (drawModifier != null) {
+                        float movementSpeed = (float)getPlayer().getAttributeValue(Attributes.MOVEMENT_SPEED);
+                        float walkingSpeed = getPlayer().getAbilities().getWalkingSpeed();
+                        float multipler = bow.getMovementSpeedMultiplier();
+
+                        fov /= (movementSpeed / walkingSpeed + 1.0f) / 2.0f;
+                        fov *= ((movementSpeed / multipler) / walkingSpeed + 1.0f) / 2.0f;
+                    }
+                }
+
                 int $$2 = getPlayer().getTicksUsingItem();
                 float $$3 = (float)$$2 / 20.0F;
                 if ($$3 > 1.0F) {
@@ -42,7 +64,8 @@ public abstract class AbstractClientPlayerMixin {
                     $$3 *= $$3;
                 }
 
-                cir.setReturnValue(Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get().floatValue(), 1.0F, 1.0f - $$3 * 0.15f));
+                fov *= 1.0f - $$3 * 0.15f;
+                cir.setReturnValue(Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get().floatValue(), 1.0f, fov));
             }
         }
     }

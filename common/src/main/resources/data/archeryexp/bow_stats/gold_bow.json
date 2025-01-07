@@ -3,7 +3,7 @@
   "base_damage": 0.8,
   "draw_time": 14,
   "range": 1.0,
-  "player_speed": 0.9,
+  "player_speed": 1.1,
   "break_resist": 0.1,
   "on_fire_effects": [],
   "recoil": 0.0

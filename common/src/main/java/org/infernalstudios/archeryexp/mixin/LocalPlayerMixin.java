@@ -39,10 +39,6 @@ public abstract class LocalPlayerMixin {
             if (bow.hasSpecialProperties()) {
                 getPlayer().xxa /= 0.2f; // side
                 getPlayer().zza /= 0.2f; // front/back
-
-                getPlayer().xxa *= bow.getMovementSpeedMultiplier(); // side
-                getPlayer().zza *= bow.getMovementSpeedMultiplier(); // front/back
-                this.sprintTriggerTime = 0;
             }
         }
     }
