@@ -46,6 +46,7 @@ public class BowStatsLoader {
                         int draw_time = json.has("draw_time") ? json.get("draw_time").getAsInt() : 16;
                         float range = json.has("range") ? json.get("range").getAsFloat() : 1.0f;
                         float break_resist = json.has("break_resist") ? json.get("break_resist").getAsFloat() : 0.0f;
+                        float break_chance = json.has("break_chance") ? json.get("break_chance").getAsFloat() : 0.33f;
                         float speed = json.has("player_speed") ? json.get("player_speed").getAsFloat() : 0.8f;
                         float recoil = json.has("recoil") ? json.get("recoil").getAsFloat() : 0.0f;
 
@@ -108,6 +109,7 @@ public class BowStatsLoader {
                         ((BowProperties) bowItem).setChargeTime(draw_time);
                         ((BowProperties) bowItem).setRange(range);
                         ((BowProperties) bowItem).setBreakingResistance(break_resist);
+                        ((BowProperties) bowItem).setBreakingChance(break_chance);
                         ((BowProperties) bowItem).setMovementSpeedMultiplier(speed);
                         ((BowProperties) bowItem).setRecoil(recoil);
                         ArcheryExpansion.bowStatPlayerList.clear();

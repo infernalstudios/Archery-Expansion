@@ -5,6 +5,7 @@
   "range": 3.5,
   "player_speed": 1,
   "break_resist": 0.5,
+  "break_chance": 0.4,
   "on_fire_effects": [
     {
       "effect": "archeryexp:quickdraw",

@@ -28,4 +28,9 @@ public class BaseEnchant extends Enchantment {
     public boolean isCurse() {
         return this.curse;
     }
+
+    @Override
+    public boolean isTreasureOnly() {
+        return this.curse;
+    }
 }

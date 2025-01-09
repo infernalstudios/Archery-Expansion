@@ -119,7 +119,7 @@ public abstract class PlayerMixin implements PlayerFOV {
             LivingEntity living = (LivingEntity) target;
 
             living.getHandSlots().forEach(stack -> {
-                if (stack.getItem() instanceof BowItem bow && living.getRandom().nextInt(100) < 33) {
+                if (stack.getItem() instanceof BowItem bow && living.getRandom().nextInt(100) < (((BowProperties) bow).getBreakingChance() * 100)) {
 
                     int level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack);
 

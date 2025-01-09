@@ -44,14 +44,13 @@ public abstract class BowItemMixin implements BowProperties {
     @Unique
     private float breakingResistance;
     @Unique
+    private float breakChance;
+    @Unique
     private float movementSpeedMultiplier;
     @Unique
     private float recoil;
     @Unique
     private boolean hasSpecialProperties;
-
-    @Unique
-    private boolean clientSync;
 
     @Unique
     private List<PotionData> effects = new ArrayList<>();
@@ -66,9 +65,9 @@ public abstract class BowItemMixin implements BowProperties {
         this.range = 0;
         this.drawTime = 0;
         this.breakingResistance = 0;
+        this.breakChance = 0;
         this.movementSpeedMultiplier = 0;
         this.recoil = 0;
-        this.clientSync = false;
 
         this.hasSpecialProperties = false;
     }
@@ -251,12 +250,12 @@ public abstract class BowItemMixin implements BowProperties {
     }
 
     @Override
-    public boolean getClientSync() {
-        return this.clientSync;
+    public float getBreakingChance() {
+        return this.breakChance;
     }
 
     @Override
-    public void setClientSync(boolean sync) {
-        this.clientSync = sync;
+    public void setBreakingChance(float breakChance) {
+        this.breakChance = breakChance;
     }
 }
