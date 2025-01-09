@@ -1,0 +1,35 @@
+{
+  "item.archeryexp.gold_bow": "Arco Reforzado de Oro",
+  "item.archeryexp.wooden_bow": "Arco de Madera",
+  "item.archeryexp.iron_bow": "Arco Reforzado de Hierro",
+  "item.archeryexp.diamond_bow": "Arco Reforzado de Diamante",
+  "item.archeryexp.netherite_bow": "Arco Reforzado de Netherite",
+
+  "item.archeryexp.gold_arrow": "Flecha Revestida de Oro",
+  "item.archeryexp.iron_arrow": "Flecha Revestida de Hierro",
+  "item.archeryexp.diamond_arrow": "Flecha Revestida de Diamante",
+
+  "enchantment.archeryexp.scouting": "Exploración",
+  "enchantment.archeryexp.baby_face": "Cara de Bebé",
+  "enchantment.archeryexp.follow_through": "Seguimiento",
+  "enchantment.archeryexp.grit": "Determinación",
+  "enchantment.archeryexp.shattering": "Fragmentación",
+  "enchantment.archeryexp.trajectory": "Trayectoria",
+  "enchantment.archeryexp.headshot": "Disparo a la Cabeza",
+
+  "enchantment.archeryexp.fragility": "Fragilidad",
+  "enchantment.archeryexp.pincushioning": "Alfiletero",
+
+  "enchantment.archeryexp.scouting.desc": "Aumenta la velocidad de movimiento mientras cargas un arco.",
+  "enchantment.archeryexp.baby_face.desc": "Golpear un objetivo con una flecha te da un aumento de velocidad.",
+  "enchantment.archeryexp.follow_through.desc": "Golpear un objetivo con una flecha te da un aumento de fuerza.",
+  "enchantment.archeryexp.grit.desc": "Otorga Resistencia mientras cargas un arco.",
+  "enchantment.archeryexp.shattering.desc": "Las flechas disparadas tienen un 5% de probabilidad de causar un 5% adicional (por nivel) de daño general a la durabilidad de una armadura.",
+  "enchantment.archeryexp.trajectory.desc": "Visualiza la trayectoria de tus flechas.",
+  "enchantment.archeryexp.headshot.desc": "Las flechas que golpean la cabeza del objetivo infligen 1.5+ de daño por nivel.",
+
+  "enchantment.archeryexp.fragility.desc": "Las armaduras son susceptibles de recibir 2+ de daño adicional de flechas por nivel.",
+  "enchantment.archeryexp.pincushioning.desc": "El efecto de Carga Rápida se aplica permanentemente mientras se usa la armadura.",
+
+  "effect.archeryexp.quickdraw": "Carga Rápida"
+}
