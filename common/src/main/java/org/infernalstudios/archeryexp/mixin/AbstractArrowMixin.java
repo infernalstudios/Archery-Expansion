@@ -1,5 +1,7 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,11 +44,11 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
         return (AbstractArrow) (Object) this;
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "onHitEntity(Lnet/minecraft/world/phys/EntityHitResult;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z")
     )
-    private boolean modifyBaseDamage(Entity entity, DamageSource damageSource, float originalDamage) {
+    private boolean modifyBaseDamage(Entity entity, DamageSource damageSource, float originalDamage, Operation<Boolean> original) {
         MobEffect effect = ArcheryEffects.QUICKDRAW_EFFECT;
         float hurtAmount = 0;
 
@@ -81,7 +83,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
             }
         }
 
-        return entity.hurt(damageSource, originalDamage + hurtAmount);
+        return original.call(entity, damageSource, originalDamage + hurtAmount);
     }
 
     @Unique

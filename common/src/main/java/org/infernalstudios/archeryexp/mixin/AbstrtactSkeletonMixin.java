@@ -1,5 +1,7 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -92,15 +94,15 @@ public abstract class AbstrtactSkeletonMixin {
         }
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "reassessWeaponGoal",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
             )
     )
-    private boolean modifyWeaponHand(ItemStack instance, Item item) {
+    private boolean modifyWeaponHand(ItemStack instance, Item $$0, Operation<Boolean> original) {
         ItemStack handItem = getSkeleton().getMainHandItem();
-        return handItem.getItem() instanceof BowItem;
+        return original.call(instance, $$0) ||  handItem.getItem() instanceof BowItem;
     }
 }

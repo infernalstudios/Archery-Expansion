@@ -17,13 +17,12 @@ import java.util.function.Supplier;
 
 public class ArcheryNetworkingForge {
 
-    private static final String PROTOCOL_VERSION = "1.0";
-    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(ArcheryExpansion.MOD_ID, "archery_network"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
+    public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
+            .named(new ResourceLocation(ArcheryExpansion.MOD_ID, "messages"))
+            .networkProtocolVersion(() -> "1.0")
+            .clientAcceptedVersions(s -> true)
+            .serverAcceptedVersions(s -> true)
+            .simpleChannel();
 
     public static void registerPackets() {
         CHANNEL.registerMessage(
@@ -77,7 +76,7 @@ public class ArcheryNetworkingForge {
                         ((BowProperties) bow).setRange(range);
                         ((BowProperties) bow).setChargeTime(drawTime);
                         ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-                        ArcheryExpansion.LOGGER.info("Bow Packet Received");
+//                        ArcheryExpansion.LOGGER.info("Bow Packet Received");
                     }
                 }
             });

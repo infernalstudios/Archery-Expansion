@@ -8,6 +8,9 @@
     "AbstractArrowMixin",
     "AbstrtactSkeletonMixin",
     "BowItemMixin",
+    "EnchantmentMenuMixin",
+    "EnchantmentMixin",
+    "EnchantmentMixin\u0024ArrowDamageEnchantmentMixin",
     "LivingEntityMixin",
     "PlayerMixin"
   ],

@@ -31,7 +31,7 @@ public class ArcheryNetworkingFabric {
         ((BowProperties) bow).setRange(range);
         ((BowProperties) bow).setChargeTime(drawTime);
         ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-        ArcheryExpansion.LOGGER.info("Bow Packet Sent");
+//        ArcheryExpansion.LOGGER.info("Bow Packet Received");
     }
 
     public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {

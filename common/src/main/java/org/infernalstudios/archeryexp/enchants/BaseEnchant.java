@@ -7,16 +7,22 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 public class BaseEnchant extends Enchantment {
 
     private final boolean curse;
+    private final boolean treasure;
     private final int maxLvl;
 
     protected BaseEnchant(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slots, int maxLvl) {
-        this(rarity, category, slots, maxLvl, false);
+        this(rarity, category, slots, maxLvl, false, false);
     }
 
-    protected BaseEnchant(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slots, int maxLvl, boolean curse) {
+    protected BaseEnchant(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slots, int maxLvl, boolean treasure) {
+        this(rarity, category, slots, maxLvl, false, treasure);
+    }
+
+    protected BaseEnchant(Rarity rarity, EnchantmentCategory category, EquipmentSlot[] slots, int maxLvl, boolean curse, boolean treasure) {
         super(rarity, category, slots);
         this.maxLvl = maxLvl;
         this.curse = curse;
+        this.treasure = treasure;
     }
 
     @Override
@@ -31,6 +37,6 @@ public class BaseEnchant extends Enchantment {
 
     @Override
     public boolean isTreasureOnly() {
-        return this.curse;
+        return this.curse || this.treasure;
     }
 }

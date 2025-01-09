@@ -1,8 +1,8 @@
 package org.infernalstudios.archeryexp.registry;
 
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -11,6 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.items.ArcheryExpansionBow;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
@@ -28,19 +29,19 @@ public class ArcheryItemsForge {
     // Wood = 384
 
     public static final RegistryObject<Item> Gold_Bow = ITEMS.register("gold_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(80)));
+            () -> new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(80), Items.GOLD_INGOT));
 
     public static final RegistryObject<Item> Iron_Bow = ITEMS.register("iron_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(240)));
+            () -> new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(240), Items.IRON_INGOT));
 
     public static final RegistryObject<Item> Diamond_Bow = ITEMS.register("diamond_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(528)));
+            () -> new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(528), Items.DIAMOND));
 
     public static final RegistryObject<Item> Netherite_Bow = ITEMS.register("netherite_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(592).fireResistant()));
+            () -> new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(592).fireResistant(), Items.NETHERITE_INGOT));
 
     public static final RegistryObject<Item> Wooden_Bow = ITEMS.register("wooden_bow",
-            () -> new BowItem(new Item.Properties().stacksTo(1).durability(112)));
+            () -> new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(112), Items.STICK));
 
     // Arrows
 
