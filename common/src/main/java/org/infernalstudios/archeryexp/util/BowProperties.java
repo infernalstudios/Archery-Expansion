@@ -32,4 +32,7 @@ public interface BowProperties {
 
     boolean hasSpecialProperties();
     void setSpecialProperties(boolean hasProperties);
+
+    boolean getClientSync();
+    void setClientSync(boolean sync);
 }

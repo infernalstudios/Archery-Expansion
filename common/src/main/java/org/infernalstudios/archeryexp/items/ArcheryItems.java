@@ -22,4 +22,6 @@ public class ArcheryItems {
     public static Item Iron_Arrow;
 
     public static Item Diamond_Arrow;
+
+    public static Item Netherite_Arrow;
 }

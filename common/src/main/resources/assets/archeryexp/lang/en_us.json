@@ -20,5 +20,16 @@
   "enchantment.archeryexp.fragility": "Fragility",
   "enchantment.archeryexp.pincushioning": "Pincushioning",
 
+  "enchantment.archeryexp.scouting.desc": "Increases movement speed whilst charging a bow.",
+  "enchantment.archeryexp.baby_face.desc": "Hitting a target with an arrow gives you a speed boost.",
+  "enchantment.archeryexp.follow_through.desc": "Hitting a target with an arrow gives you a strength boost.",
+  "enchantment.archeryexp.grit.desc": "Grants Resistance whilst charging a bow.",
+  "enchantment.archeryexp.shattering.desc": "Arrows shot have a 5% chance to deal an extra 5% (per level) of an armour’s overall durability damage to it.",
+  "enchantment.archeryexp.trajectory.desc": "Visualises the trajectory of your arrows.",
+  "enchantment.archeryexp.headshot.desc": "Arrows that strike the target's head deal 1.5+ damage per level.",
+
+  "enchantment.archeryexp.fragility.desc": "Armour is susceptible to taking 2+ extra damage to arrows per level.",
+  "enchantment.archeryexp.pincushioning.desc": "The Quickdraw effect is permanently applied whilst the armour is worn.",
+
   "effect.archeryexp.quickdraw": "Quickdraw"
 }

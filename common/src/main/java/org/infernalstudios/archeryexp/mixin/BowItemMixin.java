@@ -1,6 +1,10 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,14 +14,17 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.platform.Services;
 import org.infernalstudios.archeryexp.util.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.ArrayList;
@@ -44,6 +51,9 @@ public abstract class BowItemMixin implements BowProperties {
     private boolean hasSpecialProperties;
 
     @Unique
+    private boolean clientSync;
+
+    @Unique
     private List<PotionData> effects = new ArrayList<>();
 
     @Unique
@@ -58,6 +68,7 @@ public abstract class BowItemMixin implements BowProperties {
         this.breakingResistance = 0;
         this.movementSpeedMultiplier = 0;
         this.recoil = 0;
+        this.clientSync = false;
 
         this.hasSpecialProperties = false;
     }
@@ -237,5 +248,15 @@ public abstract class BowItemMixin implements BowProperties {
     @Override
     public void setRecoil(float recoil) {
         this.recoil = recoil;
+    }
+
+    @Override
+    public boolean getClientSync() {
+        return this.clientSync;
+    }
+
+    @Override
+    public void setClientSync(boolean sync) {
+        this.clientSync = sync;
     }
 }

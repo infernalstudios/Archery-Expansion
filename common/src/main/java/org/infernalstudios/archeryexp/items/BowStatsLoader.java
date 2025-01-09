@@ -110,6 +110,7 @@ public class BowStatsLoader {
                         ((BowProperties) bowItem).setBreakingResistance(break_resist);
                         ((BowProperties) bowItem).setMovementSpeedMultiplier(speed);
                         ((BowProperties) bowItem).setRecoil(recoil);
+                        ArcheryExpansion.bowStatPlayerList.clear();
 
                         if (potlistFilled) {
                             ((BowProperties) bowItem).setEffects(effects);
@@ -117,6 +118,7 @@ public class BowStatsLoader {
                         if (parlistFilled) {
                             ((BowProperties) bowItem).setParticles(particles);
                         }
+
                         ArcheryExpansion.LOGGER.info("Loaded Bow Stats for " + itemId.toString());
                     }
                 } catch (Exception e) {

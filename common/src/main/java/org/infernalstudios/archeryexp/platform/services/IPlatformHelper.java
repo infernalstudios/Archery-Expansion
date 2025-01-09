@@ -3,8 +3,11 @@ package org.infernalstudios.archeryexp.platform.services;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.function.Supplier;
@@ -46,4 +49,6 @@ public interface IPlatformHelper {
     void registerEffect(String name, MobEffect effect);
 
     void registerEnchantment(String name, Enchantment enchantment);
+
+    void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed);
 }

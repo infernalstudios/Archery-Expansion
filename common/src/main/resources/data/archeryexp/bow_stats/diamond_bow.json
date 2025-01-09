@@ -3,8 +3,8 @@
   "base_damage": 1.6,
   "draw_time": 20,
   "range": 3.5,
-  "player_speed": 0.4,
-  "break_resist": 0.4,
+  "player_speed": 1,
+  "break_resist": 0.5,
   "on_fire_effects": [
     {
       "effect": "archeryexp:quickdraw",

@@ -2,25 +2,17 @@ package org.infernalstudios.archeryexp.mixin;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -28,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.platform.Services;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
 import org.infernalstudios.archeryexp.util.PlayerFOV;
@@ -42,11 +35,15 @@ import java.util.List;
 @Mixin(Player.class)
 public abstract class PlayerMixin implements PlayerFOV {
 
+    @Unique
     private double lastFOV;
+    @Unique
+    private boolean syncPacket;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, CallbackInfo ci) {
         this.lastFOV = 0;
+        this.syncPacket = false;
     }
 
     @Unique
@@ -92,6 +89,26 @@ public abstract class PlayerMixin implements PlayerFOV {
         else if (speedAttribute != null) {
             if (speedAttribute.getModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID) != null) {
                 speedAttribute.removeModifier(ArcheryExpansion.BOW_DRAW_SPEED_MODIFIER_ID);
+            }
+        }
+
+        if (!getPlayer().level().isClientSide()) {
+            if (!ArcheryExpansion.bowStatPlayerList.contains((ServerPlayer) user)) {
+                for (Item item : BuiltInRegistries.ITEM) {
+                    if (item instanceof BowItem bowItem) {
+                        BowProperties bow = (BowProperties) bowItem;
+                        if (bow.hasSpecialProperties()) {
+                            Services.PLATFORM.sendBowStatsPacket(
+                                    (ServerPlayer) user,
+                                    bowItem.getDefaultInstance(),
+                                    bow.getRange(),
+                                    bow.getChargeTime(),
+                                    bow.getMovementSpeedMultiplier()
+                            );
+                        }
+                    }
+                }
+                ArcheryExpansion.bowStatPlayerList.add((ServerPlayer) user);
             }
         }
     }

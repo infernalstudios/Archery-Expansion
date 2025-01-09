@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.EntityHitResult;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
@@ -47,7 +48,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
     )
     private boolean modifyBaseDamage(Entity entity, DamageSource damageSource, float originalDamage) {
         MobEffect effect = ArcheryEffects.QUICKDRAW_EFFECT;
-        int hurtAmount = 0;
+        float hurtAmount = 0;
 
         if (entity instanceof LivingEntity living) {
             boolean playSound = false;
@@ -60,7 +61,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
             double headPosition = living.position().add(0.0, living.getDimensions(living.getPose()).height * 0.85, 0.0).y - 0.17;
 
             if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && !inHeadshotBlacklist(living)) {
-                hurtAmount += getHeadshotLevel();
+                hurtAmount += getHeadshotLevel() * 1.5f;
                 playSound = true;
                 if (living.level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(

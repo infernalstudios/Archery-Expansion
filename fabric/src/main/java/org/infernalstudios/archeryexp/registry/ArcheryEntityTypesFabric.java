@@ -10,10 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
-import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
-import org.infernalstudios.archeryexp.entities.DiamondArrow;
-import org.infernalstudios.archeryexp.entities.GoldArrow;
-import org.infernalstudios.archeryexp.entities.IronArrow;
+import org.infernalstudios.archeryexp.entities.*;
 
 public class ArcheryEntityTypesFabric {
     public static void registerEntityTypes() {
@@ -40,6 +37,15 @@ public class ArcheryEntityTypesFabric {
                 new ResourceLocation(ArcheryExpansion.MOD_ID, "diamond_arrow"),
                 FabricEntityTypeBuilder.create(MobCategory.CREATURE,  (EntityType<DiamondArrow> type, Level world) ->
                                 new DiamondArrow(type, world))
+                        .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
+                        .build()
+        );
+
+        ArcheryEntityTypes.Netherite_Arrow = Registry.register(
+                BuiltInRegistries.ENTITY_TYPE,
+                new ResourceLocation(ArcheryExpansion.MOD_ID, "netherite_arrow"),
+                FabricEntityTypeBuilder.create(MobCategory.CREATURE,  (EntityType<NetheriteArrow> type, Level world) ->
+                                new NetheriteArrow(type, world))
                         .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
                         .build()
         );

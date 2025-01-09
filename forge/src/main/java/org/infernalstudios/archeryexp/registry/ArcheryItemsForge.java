@@ -15,6 +15,7 @@ import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.IronArrowItem;
+import org.infernalstudios.archeryexp.items.arrows.NetheriteArrowItem;
 
 @Mod.EventBusSubscriber(modid = ArcheryExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ArcheryItemsForge {
@@ -52,6 +53,9 @@ public class ArcheryItemsForge {
     public static final RegistryObject<Item> Diamond_Arrow = ITEMS.register("diamond_arrow",
             () -> new DiamondArrowItem(new Item.Properties()));
 
+    public static final RegistryObject<Item> Netherite_Arrow = ITEMS.register("netherite_arrow",
+            () -> new NetheriteArrowItem(new Item.Properties()));
+
 
 
     public static void registerItems(IEventBus eventBus) {
@@ -68,6 +72,7 @@ public class ArcheryItemsForge {
         ArcheryItems.Gold_Arrow = Gold_Arrow.get();
         ArcheryItems.Iron_Arrow = Iron_Arrow.get();
         ArcheryItems.Diamond_Arrow = Diamond_Arrow.get();
+        ArcheryItems.Netherite_Arrow = Netherite_Arrow.get();
     }
 
     @SubscribeEvent
@@ -82,6 +87,7 @@ public class ArcheryItemsForge {
             event.accept(Gold_Arrow.get());
             event.accept(Iron_Arrow.get());
             event.accept(Diamond_Arrow.get());
+            event.accept(Netherite_Arrow.get());
         }
     }
 }

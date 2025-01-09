@@ -3,6 +3,7 @@
   "values": [
     "archeryexp:gold_arrow",
     "archeryexp:iron_arrow",
-    "archeryexp:diamond_arrow"
+    "archeryexp:diamond_arrow",
+    "archeryexp:netherite_arrow"
   ]
 }

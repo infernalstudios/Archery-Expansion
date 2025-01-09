@@ -1,6 +1,5 @@
 package org.infernalstudios.archeryexp;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +11,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.BowStatsLoader;
-import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.networking.ArcheryNetworkingForge;
 import org.infernalstudios.archeryexp.particles.ArrowTrailParticle;
 import org.infernalstudios.archeryexp.particles.HeadshotParticle;
 import org.infernalstudios.archeryexp.platform.ForgePlatformHelper;
@@ -55,6 +55,7 @@ public class ArcheryExpansionForge {
         ArcheryItemsForge.registerItemsCommon();
         ArcheryParticlesForge.registerParticlesCommon();
         ArcheryEntityTypesForge.registerEntitiesCommon();
+        ArcheryNetworkingForge.registerPackets();
     }
 
     @Mod.EventBusSubscriber(modid = ArcheryExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -69,6 +70,8 @@ public class ArcheryExpansionForge {
                     new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "golden_arrow.png")));
             EntityRenderers.register(ArcheryEntityTypesForge.Diamond_Arrow.get(), (ctx) ->
                     new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "diamond_arrow.png")));
+            EntityRenderers.register(ArcheryEntityTypesForge.Netherite_Arrow.get(), (ctx) ->
+                    new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "netherite_arrow.png")));
 
             List<Item> items = List.of(ArcheryItems.Gold_Bow, ArcheryItems.Iron_Bow, ArcheryItems.Diamond_Bow, ArcheryItems.Netherite_Bow,
                     ArcheryItems.Wooden_Bow, Items.BOW);
@@ -117,6 +120,11 @@ public class ArcheryExpansionForge {
                     return "bowstats_reload";
                 }
             });
+        }
+
+        @SubscribeEvent
+        public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+            ArcheryExpansion.bowStatPlayerList.clear();
         }
     }
 }

@@ -80,7 +80,7 @@ public class BowUtil {
 
             velocity = velocity.add(0, -gravity, 0);
 
-            if (position.y < 0) break;
+            if (position.y < -64) break;
         }
 
         return points;

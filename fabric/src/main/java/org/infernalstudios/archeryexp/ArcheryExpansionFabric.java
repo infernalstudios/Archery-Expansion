@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -16,6 +17,7 @@ import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.BowStatsLoader;
+import org.infernalstudios.archeryexp.networking.ArcheryNetworkingFabric;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.particles.ArrowTrailParticle;
 import org.infernalstudios.archeryexp.particles.HeadshotParticle;
@@ -35,12 +37,18 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
         ArcheryPariclesFabric.registerParticles();
         ArcheryEntityTypesFabric.registerEntityTypes();
         ArcheryExpansion.init();
+        ArcheryNetworkingFabric.registerS2CPackets();
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new ArcheryExpansionFabricReloadListener());
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ArcheryExpansion.bowStatPlayerList.clear();
+        });
     }
 
     @Override
     public void onInitializeClient() {
+
         String path = "textures/entity/projectiles/";
         EntityRendererRegistry.register(ArcheryEntityTypes.Iron_Arrow, (ctx) ->
                 new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "iron_arrow.png")));
@@ -48,6 +56,8 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
                 new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "golden_arrow.png")));
         EntityRendererRegistry.register(ArcheryEntityTypes.Diamond_Arrow, (ctx) ->
                 new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "diamond_arrow.png")));
+        EntityRendererRegistry.register(ArcheryEntityTypes.Netherite_Arrow, (ctx) ->
+                new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "netherite_arrow.png")));
 
 
         List<Item> items = List.of(ArcheryItems.Gold_Bow, ArcheryItems.Iron_Bow, ArcheryItems.Diamond_Bow, ArcheryItems.Netherite_Bow,

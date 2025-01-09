@@ -1,9 +1,9 @@
 {
-  "cooldown": 16,
+  "cooldown": 14,
   "base_damage": 1.2,
-  "draw_time": 16,
+  "draw_time": 14,
   "range": 2.0,
-  "player_speed": 0.8,
+  "player_speed": 0.6,
   "break_resist": 0.0,
   "on_fire_effects": [
     {

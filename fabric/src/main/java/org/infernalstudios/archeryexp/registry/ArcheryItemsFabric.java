@@ -28,6 +28,7 @@ public class ArcheryItemsFabric {
         entry.accept(Gold_Arrow);
         entry.accept(Iron_Arrow);
         entry.accept(Diamond_Arrow);
+        entry.accept(Netherite_Arrow);
     }
 
     //Registration stuff
@@ -63,6 +64,9 @@ public class ArcheryItemsFabric {
                 new IronArrowItem(new Item.Properties()));
 
         Diamond_Arrow = registerItem("diamond_arrow",
+                new DiamondArrowItem(new Item.Properties()));
+
+        Netherite_Arrow = registerItem("netherite_arrow",
                 new DiamondArrowItem(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(ArcheryItemsFabric::addCombat);

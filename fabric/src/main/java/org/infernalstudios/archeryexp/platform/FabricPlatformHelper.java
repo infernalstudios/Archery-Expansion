@@ -6,10 +6,14 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.networking.ArcheryNetworkingFabric;
 import org.infernalstudios.archeryexp.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -42,5 +46,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public void registerEnchantment(String name, Enchantment enchantment) {
         Registry.register(BuiltInRegistries.ENCHANTMENT, new ResourceLocation(ArcheryExpansion.MOD_ID, name), enchantment);
+    }
+
+    @Override
+    public void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {
+        ArcheryNetworkingFabric.sendBowStatsPacket(player, bow, range, drawTime, speed);
     }
 }

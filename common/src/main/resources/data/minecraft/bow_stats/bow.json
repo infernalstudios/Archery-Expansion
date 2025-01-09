@@ -1,9 +1,9 @@
 {
   "cooldown": 16,
   "base_damage": 1.2,
-  "draw_time": 16,
+  "draw_time": 24,
   "range": 2.0,
-  "player_speed": 0.2,
+  "player_speed": 0.6,
   "break_resist": 0.0,
   "on_fire_effects": [
     {
@@ -14,15 +14,15 @@
   ],
   "on_fire_particles": [
     {
-      "effect": "minecraft:firework",
-      "count": "10",
+      "effect": "minecraft:poof",
+      "count": "3",
       "xoffset": "0",
       "yoffset": "0",
       "zoffset": "0",
-      "xvel": "1",
-      "yvel": "1",
-      "zvel": "1",
-      "speed": 0
+      "xvel": "0.2",
+      "yvel": "0.2",
+      "zvel": "0.2",
+      "speed": 1
     }
   ],
   "recoil": 0.0
