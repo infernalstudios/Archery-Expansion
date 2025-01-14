@@ -55,7 +55,7 @@ public class ArcheryItemsForge {
             () -> new DiamondArrowItem(new Item.Properties()));
 
     public static final RegistryObject<Item> Netherite_Arrow = ITEMS.register("netherite_arrow",
-            () -> new NetheriteArrowItem(new Item.Properties()));
+            () -> new NetheriteArrowItem(new Item.Properties().fireResistant()));
 
 
 

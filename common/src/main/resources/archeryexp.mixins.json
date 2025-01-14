@@ -10,7 +10,7 @@
     "BowItemMixin",
     "EnchantmentMenuMixin",
     "EnchantmentMixin",
-    "EnchantmentMixin\u0024ArrowDamageEnchantmentMixin",
+    "ArrowDamageEnchantmentMixin",
     "LivingEntityMixin",
     "PlayerMixin"
   ],

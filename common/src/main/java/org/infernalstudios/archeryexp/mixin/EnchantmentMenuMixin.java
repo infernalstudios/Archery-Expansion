@@ -10,6 +10,7 @@ import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.items.ArcheryExpansionBow;
+import org.infernalstudios.archeryexp.util.ArcheryTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -28,8 +29,7 @@ public class EnchantmentMenuMixin {
     private List<EnchantmentInstance> preventPowerEnchTable(RandomSource rand, ItemStack stack, int $$2, boolean $$3, Operation<List<EnchantmentInstance>> original) {
         List<EnchantmentInstance> origin = original.call(rand, stack, $$2, $$3);
 
-        if (stack.getItem() instanceof ArcheryExpansionBow) {
-//            origin.removeIf(enchantmentInstance -> enchantmentInstance.enchantment instanceof ArrowDamageEnchantment);
+        if (stack.is(ArcheryTags.DisallowPower)) {
             origin.replaceAll(i -> i.enchantment instanceof ArrowDamageEnchantment ? new EnchantmentInstance(ArcheryEnchants.Bow_Enchants.get(rand.nextInt(2)), Math.min(i.level, 3)) : i);
         }
 

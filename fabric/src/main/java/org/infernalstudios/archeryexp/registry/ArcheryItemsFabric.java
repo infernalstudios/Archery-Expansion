@@ -8,7 +8,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.items.ArcheryExpansionBow;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.IronArrowItem;
@@ -41,19 +43,19 @@ public class ArcheryItemsFabric {
         // BOWS
 
         Gold_Bow = registerItem("gold_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(80)));
+                new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(80), Items.GOLD_INGOT));
 
         Iron_Bow = registerItem("iron_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(240)));
+                new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(240), Items.IRON_INGOT));
 
         Diamond_Bow = registerItem("diamond_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(528)));
+                new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(528), Items.DIAMOND));
 
         Netherite_Bow = registerItem("netherite_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(592).fireResistant()));
+                new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(592).fireResistant(), Items.NETHERITE_INGOT));
 
         Wooden_Bow = registerItem("wooden_bow",
-                new BowItem(new Item.Properties().stacksTo(1).durability(112)));
+                new ArcheryExpansionBow(new Item.Properties().stacksTo(1).durability(112), Items.STICK));
 
         // ARROWS
 
@@ -67,7 +69,7 @@ public class ArcheryItemsFabric {
                 new DiamondArrowItem(new Item.Properties()));
 
         Netherite_Arrow = registerItem("netherite_arrow",
-                new DiamondArrowItem(new Item.Properties()));
+                new DiamondArrowItem(new Item.Properties().fireResistant()));
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(ArcheryItemsFabric::addCombat);
 

@@ -23,6 +23,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.infernalstudios.archeryexp.effects.ArcheryEffects;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
+import org.infernalstudios.archeryexp.util.ArcheryTags;
 import org.infernalstudios.archeryexp.util.ArrowProperties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -62,8 +63,8 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
 
             double headPosition = living.position().add(0.0, living.getDimensions(living.getPose()).height * 0.85, 0.0).y - 0.17;
 
-            if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && !inHeadshotBlacklist(living)) {
-                hurtAmount += getHeadshotLevel() * 1.5f;
+            if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && living.getType().is(ArcheryTags.HeadshotWhitelist)) {
+                hurtAmount += getHeadshotLevel() * 2;
                 playSound = true;
                 if (living.level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(
@@ -84,11 +85,6 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
         }
 
         return original.call(entity, damageSource, originalDamage + hurtAmount);
-    }
-
-    @Unique
-    private boolean inHeadshotBlacklist(LivingEntity entity) {
-        return entity instanceof Animal || entity instanceof WaterAnimal || entity instanceof Slime || entity instanceof EnderDragon;
     }
 
     @Inject(method = "onHitEntity", at = @At("HEAD"))
