@@ -109,7 +109,8 @@ public abstract class BowItemMixin implements BowProperties {
             user.getCooldowns().addCooldown(getItem(), getBowCooldown());
 
             this.effects.forEach(potionData -> {
-                user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
+                user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(),
+                        potionData.getParticles(), potionData.getParticles()));
             });
 
             this.particles.forEach(particleData -> {

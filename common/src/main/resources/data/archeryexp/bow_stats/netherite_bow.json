@@ -10,12 +10,14 @@
     {
       "effect": "archeryexp:quickdraw",
       "lvl": 3,
-      "length": 20
+      "length": 20,
+      "particles": false
     },
     {
       "effect": "minecraft:weakness",
       "lvl": 0,
-      "length": 40
+      "length": 40,
+      "particles": true
     }
   ],
   "recoil": 0.75

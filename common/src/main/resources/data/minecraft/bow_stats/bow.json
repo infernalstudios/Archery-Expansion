@@ -10,7 +10,8 @@
     {
       "effect": "archeryexp:quickdraw",
       "lvl": 5,
-      "length": 30
+      "length": 30,
+      "particles": false
     }
   ],
   "on_fire_particles": [

@@ -5,6 +5,6 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 public class QuickdrawEffect extends MobEffect {
     public QuickdrawEffect() {
-        super(MobEffectCategory.HARMFUL, 0xffc74d);
+        super(MobEffectCategory.HARMFUL, 0xffffff);
     }
 }

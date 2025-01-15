@@ -9,11 +9,13 @@ public class PotionData {
     private final String effect;
     private final int level;
     private final int length;
+    private final boolean particles;
 
-    public PotionData(String effect, int level, int length) {
+    public PotionData(String effect, int level, int length, boolean particles) {
         this.effect = effect;
         this.level = level;
         this.length = length;
+        this.particles = particles;
     }
 
     public MobEffect getEffect() {
@@ -28,5 +30,9 @@ public class PotionData {
 
     public int getLevel() {
         return this.level;
+    }
+
+    public boolean getParticles() {
+        return this.particles;
     }
 }

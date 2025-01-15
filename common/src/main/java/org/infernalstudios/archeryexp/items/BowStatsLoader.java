@@ -65,8 +65,9 @@ public class BowStatsLoader {
                                         String effect = potionObj.has("effect") ? potionObj.get("effect").getAsString() : "minecraft:empty";
                                         int lvl = potionObj.has("lvl") ? potionObj.get("lvl").getAsInt() : 1;
                                         int length = potionObj.has("length") ? potionObj.get("length").getAsInt() : 0;
+                                        boolean particles = potionObj.has("particles") ? potionObj.get("particles").getAsBoolean() : false;
 
-                                        PotionData data = new PotionData(effect, lvl, length);
+                                        PotionData data = new PotionData(effect, lvl, length, particles);
                                         effects.add(data);
                                     }
                                 }

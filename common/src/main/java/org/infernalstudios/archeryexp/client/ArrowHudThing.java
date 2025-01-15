@@ -45,7 +45,7 @@ public class ArrowHudThing {
 //                    GlStateManager.DestFactor.ZERO
 //            );
 
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.35f);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
 
             drawContext.blit(Bow_Meter, x, y, 0, 0, 16, 7, 48, 7);
 
