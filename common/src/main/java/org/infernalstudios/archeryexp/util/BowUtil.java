@@ -99,10 +99,10 @@ public class BowUtil {
 
     public static float getPowerForDrawTime(int drawTime, BowProperties stack) {
         float power = (float) drawTime / stack.getChargeTime();
-        power = (power * power + power * 2.0F) / 3.0F;
+        power = (power * power + power * 2.0f) / 3.0f;
 
-        if (power > 1.0F) {
-            power = 1.0F;
+        if (power > 1.0f) {
+            power = 1.0f;
         }
 
         return power;

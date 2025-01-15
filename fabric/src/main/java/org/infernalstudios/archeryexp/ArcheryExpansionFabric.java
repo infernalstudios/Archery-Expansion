@@ -4,15 +4,18 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import org.infernalstudios.archeryexp.client.ArrowHudThing;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
@@ -81,6 +84,8 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
 
         ParticleFactoryRegistry.getInstance().register(ArcheryParticles.ARROW_TRAIL, ArrowTrailParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ArcheryParticles.HEADSHOT, HeadshotParticle.Factory::new);
+
+        HudRenderCallback.EVENT.register(ArrowHudThing::renderBowBar);
     }
 
     public class ArcheryExpansionFabricReloadListener implements SimpleSynchronousResourceReloadListener {

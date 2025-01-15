@@ -10,6 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.infernalstudios.archeryexp.client.ArrowHudThing;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
 import org.infernalstudios.archeryexp.items.BowStatsLoader;
@@ -97,6 +100,14 @@ public class ArcheryExpansionForge {
         public static void registerParticles(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ArcheryParticlesForge.ARROW_TRAIL.get(), ArrowTrailParticle.Factory::new);
             event.registerSpriteSet(ArcheryParticlesForge.HEADSHOT.get(), HeadshotParticle.Factory::new);
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = ArcheryExpansion.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public class HUDClient {
+        @SubscribeEvent
+        public static void onRenderGuiOverlay(RenderGuiEvent event) {
+            ArrowHudThing.renderBowBar(event.getGuiGraphics(), event.getPartialTick());
         }
     }
 
