@@ -29,7 +29,6 @@ public class ArrowHudThing {
 
         ItemStack stack = player.getUseItem();
         if (stack.getItem() instanceof BowItem) {
-            ArcheryExpansion.LOGGER.info("TESTING BOW GUI THINGY");
 
             int width = drawContext.guiWidth();
             int height = drawContext.guiHeight();
