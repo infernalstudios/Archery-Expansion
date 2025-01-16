@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wsg"
+  ],
+  "key": {
+    "w": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "s": {
+      "item": "archeryexp:diamond_arrow"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "archeryexp:netherite_arrow",
+    "count": 1
+  }
+}

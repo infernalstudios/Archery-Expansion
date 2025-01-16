@@ -4,6 +4,24 @@
     "minecraft:player",
     "minecraft:zombie",
     "minecraft:skeleton",
-    "minecraft:creeper"
+    "minecraft:creeper",
+    "minecraft:piglin",
+    "minecraft:piglinn_brute",
+    "minecraft:blaze",
+    "minecraft:drowned",
+    "minecraft:evoker",
+    "minecraft:husk",
+    "minecraft:illusioner",
+    "minecraft:iron_golem",
+    "minecraft:pillager",
+    "minecraft:snow_golem",
+    "minecraft:stray",
+    "minecraft:villager",
+    "minecraft:vindicator",
+    "minecraft:wandering_trader",
+    "minecraft:warden",
+    "minecraft:witch",
+    "minecraft:wither",
+    "minecraft:wither_skeleton"
   ]
 }

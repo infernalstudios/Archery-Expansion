@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "#": {
       "item": "minecraft:stick"
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "archeryexp:wooden_bow"
-  },
-  "show_notification": true
+  }
 }
