@@ -1,22 +1,24 @@
 {
     "schemaVersion": 1,
     "id": "archeryexp",
-    "version": "${version}",
-    "name": "${mod_name}",
-    "description": "${description}",
+    "version": "1.0.0",
+    "name": "Archery Expansion",
+    "description": "Adds new bow tiers and mechanics to Minecraft!",
     "authors": [
-        "${mod_author}"
+        "Infernal Studios",
+        "Deadlydiamond98",
+        "Nekomaster1000"
     ],
     "contact": {
-        "homepage": "https://fabricmc.net/",
-        "sources": "https://github.com/FabricMC/fabric-example-mod"
+        "homepage": "https://infernalstudios.org/",
+        "sources": "..."
     },
-    "license": "${license}",
+    "license": "Apache-2.0",
     "icon": "archeryexp.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-          "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
+            "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
         ],
         "client": [
             "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
@@ -29,7 +31,7 @@
     "depends": {
         "fabricloader": ">=0.14",
         "fabric": "*",
-        "minecraft": "${minecraft_version}",
+        "minecraft": "1.20.1",
         "java": ">=17"
     },
     "suggests": {

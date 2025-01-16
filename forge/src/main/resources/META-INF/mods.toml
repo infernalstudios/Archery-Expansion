@@ -5,17 +5,12 @@ license = "${license}"
 [[mods]] #mandatory
 modId = "${mod_id}"
 version = "${version}"
-displayName = "${mod_name}"
+displayName = "Archery Expansion"
 
-logoFile = "${mod_id}.png"
+logoFile = "archeryexp.png"
 credits = "Deadlydiamond98, Nekomaster1000"
-authors = "${mod_author}" #optional
-description = '''Archery Expansion is a mod that adds new bow varients and mechanics to Minecraft
-
-Credits:
-Deadlydiamond98 - Developer
-Nekomaster1000 - Artist, Designer
-''' #mandatory (Supports multiline text)
+authors = "Infernal Studios" #optional
+description = '''Adds new bow tiers and mechanics to Minecraft!''' #mandatory (Supports multiline text)
 [[dependencies.${mod_id}]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
