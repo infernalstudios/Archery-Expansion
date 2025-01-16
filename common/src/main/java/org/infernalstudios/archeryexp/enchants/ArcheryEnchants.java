@@ -25,8 +25,8 @@ public class ArcheryEnchants {
 
 
     public static final Enchantment FRAGILITY = new BaseEnchant(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR,
-            new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}, 5, false, true);
-    public static final Enchantment PINCUSHIONING = new BaseEnchant(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD}, 5, false, true);
+            new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}, 5, true, true);
+    public static final Enchantment PINCUSHIONING = new BaseEnchant(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD}, 5, true, true);
 
     public static void registerEnchants() {
         register("scouting", SCOUTING);

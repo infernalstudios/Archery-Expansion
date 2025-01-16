@@ -18,8 +18,8 @@
   "enchantment.archeryexp.trajectory": "Trajectory",
   "enchantment.archeryexp.headshot": "Headshot",
 
-  "enchantment.archeryexp.fragility": "Fragility",
-  "enchantment.archeryexp.pincushioning": "Pincushioning",
+  "enchantment.archeryexp.fragility": "Curse of Fragility",
+  "enchantment.archeryexp.pincushioning": "Curse of Pincushioning",
 
   "enchantment.archeryexp.scouting.desc": "Increases movement speed whilst charging a bow.",
   "enchantment.archeryexp.baby_face.desc": "Hitting a target with an arrow gives you a speed boost.",
