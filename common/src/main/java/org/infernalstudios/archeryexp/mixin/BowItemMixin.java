@@ -1,11 +1,10 @@
 package org.infernalstudios.archeryexp.mixin;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -14,17 +13,15 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
-import org.infernalstudios.archeryexp.particles.ArcheryParticles;
-import org.infernalstudios.archeryexp.platform.Services;
+import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 import org.infernalstudios.archeryexp.util.*;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.ArrayList;
@@ -32,6 +29,8 @@ import java.util.List;
 
 @Mixin(BowItem.class)
 public abstract class BowItemMixin implements BowProperties {
+
+    @Shadow public abstract InteractionResultHolder<ItemStack> use(Level $$0, Player $$1, InteractionHand $$2);
 
     @Unique
     private int cooldown;
@@ -132,7 +131,41 @@ public abstract class BowItemMixin implements BowProperties {
             });
 
             applyRecoil(user, getRecoil());
+
+
+            // Cursed Bow
+            if (stack.is(Items.BOW)) {
+                float breakChance = getCursedBowBreakChance(arrow);
+
+                if (user.getRandom().nextInt(100) < breakChance) {
+                    stack.hurtAndBreak(stack.getMaxDamage(), user, player ->
+                            player.broadcastBreakEvent(player.getUsedItemHand()));
+                }
+            }
         }
+    }
+
+    @Unique
+    private float getCursedBowBreakChance(AbstractArrow arrow) {
+
+        EntityType<?> type = arrow.getType();
+
+        if (type == EntityType.ARROW) {
+            return 4;
+        }
+        else if (type == ArcheryEntityTypes.Gold_Arrow) {
+            return 10;
+        }
+        else if (type == ArcheryEntityTypes.Iron_Arrow) {
+            return 20;
+        }
+        else if (type == ArcheryEntityTypes.Diamond_Arrow) {
+            return 40;
+        }
+        else if (type == ArcheryEntityTypes.Netherite_Arrow) {
+            return 60;
+        }
+        return 12;
     }
 
     @Unique
@@ -147,6 +180,8 @@ public abstract class BowItemMixin implements BowProperties {
         );
         user.hurtMarked = true;
     }
+
+
 
 
     @Override

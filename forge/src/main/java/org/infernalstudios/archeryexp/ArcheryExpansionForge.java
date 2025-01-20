@@ -8,11 +8,18 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -136,6 +143,34 @@ public class ArcheryExpansionForge {
         @SubscribeEvent
         public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
             ArcheryExpansion.bowStatPlayerList.clear();
+        }
+
+        @SubscribeEvent
+        public static void onLootTableLoad(LootTableLoadEvent event) {
+            addToLootTable(event, BuiltInLootTables.PILLAGER_OUTPOST, ArcheryItems.Iron_Arrow, 0, 4);
+            addToLootTable(event, BuiltInLootTables.WOODLAND_MANSION, ArcheryItems.Iron_Arrow, 0, 4);
+
+            addToLootTable(event, BuiltInLootTables.BASTION_TREASURE, ArcheryItems.Gold_Arrow, 2, 7);
+            addToLootTable(event, BuiltInLootTables.BASTION_OTHER, ArcheryItems.Gold_Arrow, 0, 5);
+            addToLootTable(event, BuiltInLootTables.BASTION_BRIDGE, ArcheryItems.Gold_Arrow, 1, 5);
+
+            addToLootTable(event, BuiltInLootTables.ANCIENT_CITY, ArcheryItems.Diamond_Arrow, 0, 3);
+            addToLootTable(event, BuiltInLootTables.END_CITY_TREASURE, ArcheryItems.Diamond_Arrow, 0, 6);
+
+            addToLootTable(event, BuiltInLootTables.BASTION_TREASURE, ArcheryItems.Netherite_Arrow, 0, 2);
+        }
+
+        private static void addToLootTable(LootTableLoadEvent event, ResourceLocation id, Item item, int min, int max) {
+            if (event.getName().equals(id)) {
+                LootPool arrowPool = LootPool.lootPool()
+                        .name("my_arrow_pool")
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(item).apply(SetItemCountFunction.setCount(
+                                UniformGenerator.between(min, max))
+                        )).build();
+
+                event.getTable().addPool(arrowPool);
+            }
         }
     }
 }

@@ -22,6 +22,7 @@
     "minecraft:warden",
     "minecraft:witch",
     "minecraft:wither",
-    "minecraft:wither_skeleton"
+    "minecraft:wither_skeleton",
+    "minecraft:zombified_piglin"
   ]
 }
