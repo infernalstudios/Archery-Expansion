@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "id": "archeryexp",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Archery Expansion",
     "description": "Adds new bow tiers and mechanics to Minecraft!",
     "authors": [
