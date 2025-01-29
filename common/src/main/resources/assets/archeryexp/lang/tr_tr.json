@@ -1,0 +1,36 @@
+{
+  "item.archeryexp.gold_bow": "Altınla Güçlendirilmiş Yay",
+  "item.archeryexp.wooden_bow": "Odun Yay",
+  "item.archeryexp.iron_bow": "Demirle Güçlendirilmiş Yay",
+  "item.archeryexp.diamond_bow": "Elmasla Güçlendirilmiş Yay",
+  "item.archeryexp.netherite_bow": "Netheritle Güçlendirilmiş Yay",
+
+  "item.archeryexp.gold_arrow": "Altın Kaplı Ok",
+  "item.archeryexp.iron_arrow": "Demir Kaplı Ok",
+  "item.archeryexp.diamond_arrow": "Elmas Kaplı Ok",
+  "item.archeryexp.netherite_arrow": "Netherit Kaplı Ok",
+
+  "enchantment.archeryexp.scouting": "Gözet",
+  "enchantment.archeryexp.baby_face": "Vur Kaç",
+  "enchantment.archeryexp.follow_through": "Ek Saldırı",
+  "enchantment.archeryexp.grit": "Metanet",
+  "enchantment.archeryexp.shattering": "Parçalama",
+  "enchantment.archeryexp.trajectory": "Öngörü",
+  "enchantment.archeryexp.headshot": "Headshot",
+
+  "enchantment.archeryexp.fragility": "Kırılganlık Laneti",
+  "enchantment.archeryexp.pincushioning": "Kirpi Laneti",
+
+  "enchantment.archeryexp.scouting.desc": "Yayı çekerkenki haraket hızınızı arttırır.",
+  "enchantment.archeryexp.baby_face.desc": "Okla bir hedefi vurmak size hız verir.",
+  "enchantment.archeryexp.follow_through.desc": "Okla bir hedefi vurmak size güç verir.",
+  "enchantment.archeryexp.grit.desc": "Yayı çekerken direnç verir.",
+  "enchantment.archeryexp.shattering.desc": "Oklar 5% şansla zırhın dayanıklılık hasarının (seviye başına) %5'i kadar ekstra hasar verir.",
+  "enchantment.archeryexp.trajectory.desc": "Oklarının gideceği yolu gösterir.",
+  "enchantment.archeryexp.headshot.desc": "Hedefinin kafasına isabet eden oklar seviye başına +1.5 hasar verir.",
+
+  "enchantment.archeryexp.fragility.desc": "Zırh, oklardan seviye başına +2 dayanıklılık hasarı alabilir.",
+  "enchantment.archeryexp.pincushioning.desc": "Hızlı-Çekiş etkisi zırh giyiliyken kalıcı olarak uygulanır.",
+
+  "effect.archeryexp.quickdraw": "Hızlı-Çekiş"
+}
