@@ -14,6 +14,7 @@ import org.infernalstudios.archeryexp.items.ArcheryExpansionBow;
 import org.infernalstudios.archeryexp.items.arrows.DiamondArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.GoldArrowItem;
 import org.infernalstudios.archeryexp.items.arrows.IronArrowItem;
+import org.infernalstudios.archeryexp.items.arrows.NetheriteArrowItem;
 
 import static org.infernalstudios.archeryexp.items.ArcheryItems.*;
 
@@ -69,7 +70,7 @@ public class ArcheryItemsFabric {
                 new DiamondArrowItem(new Item.Properties()));
 
         Netherite_Arrow = registerItem("netherite_arrow",
-                new DiamondArrowItem(new Item.Properties().fireResistant()));
+                new NetheriteArrowItem(new Item.Properties().fireResistant()));
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(ArcheryItemsFabric::addCombat);
 
