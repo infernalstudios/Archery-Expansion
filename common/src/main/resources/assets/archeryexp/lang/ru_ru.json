@@ -32,5 +32,10 @@
   "enchantment.archeryexp.fragility.desc": "Броня восприимчива к получению 2+ дополнительного урона от стрел за уровень.",
   "enchantment.archeryexp.pincushioning.desc": "Эффект оттяжки применяется при ношении постоянно.",
 
-  "effect.archeryexp.quickdraw": "Оттяжка"
+  "effect.archeryexp.quickdraw": "Оттяжка",
+
+  "entity.archeryexp.gold_arrow": "Золотая стрела",
+  "entity.archeryexp.iron_arrow": "Железная стрела",
+  "entity.archeryexp.diamond_arrow": "Алмазная стрела",
+  "entity.archeryexp.netherite_arrow": "Незеритовая стрела"
 }
