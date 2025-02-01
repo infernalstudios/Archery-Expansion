@@ -1,9 +1,13 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -96,7 +100,10 @@ public abstract class BowItemMixin implements BowProperties {
         if (this.hasSpecialProperties) {
             float shoot = BowUtil.getPowerForDrawTime($$7, (BowProperties) getItem());
             arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * getRange(), 1.0f);
-            arrow.setBaseDamage(getBaseDamage());
+
+            double damage = checkForArrowMatch(arrow, "caverns_and_chasms:large_arrow") ? getBaseDamage() + 4.0 : getBaseDamage();
+            arrow.setBaseDamage(damage);
+
             arrow.setCritArrow(shoot == 1.0f);
 
             level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.SHATTERING, stack);
@@ -293,5 +300,10 @@ public abstract class BowItemMixin implements BowProperties {
     @Override
     public void setBreakingChance(float breakChance) {
         this.breakChance = breakChance;
+    }
+
+    @Unique
+    public boolean checkForArrowMatch(Entity entity, String entityId) {
+        return BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).equals(new ResourceLocation(entityId));
     }
 }
