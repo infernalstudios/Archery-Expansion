@@ -103,7 +103,9 @@ public abstract class PlayerMixin implements PlayerFOV {
                                     bowItem.getDefaultInstance(),
                                     bow.getRange(),
                                     bow.getChargeTime(),
-                                    bow.getMovementSpeedMultiplier()
+                                    bow.getMovementSpeedMultiplier(),
+                                    bow.getOffsetX(),
+                                    bow.getOffsetY()
                             );
                         }
                     }

@@ -46,4 +46,12 @@ public interface BowProperties {
     boolean hasSpecialProperties();
 
     void setSpecialProperties(boolean hasProperties);
+
+    float getOffsetX();
+
+    void setOffsetX(float range);
+
+    float getOffsetY();
+
+    void setOffsetY(float range);
 }

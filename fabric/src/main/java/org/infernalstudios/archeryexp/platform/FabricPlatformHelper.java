@@ -49,7 +49,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {
-        ArcheryNetworkingFabric.sendBowStatsPacket(player, bow, range, drawTime, speed);
+    public void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {
+        ArcheryNetworkingFabric.sendBowStatsPacket(player, bow, range, drawTime, speed, x, y);
     }
 }

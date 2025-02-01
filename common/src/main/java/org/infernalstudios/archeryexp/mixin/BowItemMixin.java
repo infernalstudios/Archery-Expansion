@@ -54,6 +54,10 @@ public abstract class BowItemMixin implements BowProperties {
     private float recoil;
     @Unique
     private boolean hasSpecialProperties;
+    @Unique
+    private float offsetX;
+    @Unique
+    private float offsetY;
 
     @Unique
     private List<PotionData> effects = new ArrayList<>();
@@ -71,6 +75,8 @@ public abstract class BowItemMixin implements BowProperties {
         this.breakChance = 0;
         this.movementSpeedMultiplier = 0;
         this.recoil = 0;
+        this.offsetX = 0;
+        this.offsetY = 0;
 
         this.hasSpecialProperties = false;
     }
@@ -305,5 +311,25 @@ public abstract class BowItemMixin implements BowProperties {
     @Unique
     public boolean checkForArrowMatch(Entity entity, String entityId) {
         return BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).equals(new ResourceLocation(entityId));
+    }
+
+    @Override
+    public float getOffsetX() {
+        return this.offsetX;
+    }
+
+    @Override
+    public void setOffsetX(float x) {
+        this.offsetX = x;
+    }
+
+    @Override
+    public float getOffsetY() {
+        return this.offsetY;
+    }
+
+    @Override
+    public void setOffsetY(float y) {
+        this.offsetY = y;
     }
 }

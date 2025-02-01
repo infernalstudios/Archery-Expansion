@@ -39,12 +39,16 @@ public class ArcheryNetworkingForge {
         private final float range;
         private final int drawTime;
         private final float speed;
+        private final float x;
+        private final float y;
 
-        public BowStatsPacket(Item bow, float range, int drawTime, float speed) {
+        public BowStatsPacket(Item bow, float range, int drawTime, float speed, float x, float y) {
             this.bow = bow;
             this.range = range;
             this.drawTime = drawTime;
             this.speed = speed;
+            this.x = x;
+            this.y = y;
         }
 
         public static void encode(BowStatsPacket packet, FriendlyByteBuf buf) {
@@ -52,6 +56,8 @@ public class ArcheryNetworkingForge {
             buf.writeFloat(packet.range);
             buf.writeInt(packet.drawTime);
             buf.writeFloat(packet.speed);
+            buf.writeFloat(packet.x);
+            buf.writeFloat(packet.y);
         }
 
         public static BowStatsPacket decode(FriendlyByteBuf buf) {
@@ -59,7 +65,9 @@ public class ArcheryNetworkingForge {
             float range = buf.readFloat();
             int drawTime = buf.readInt();
             float speed = buf.readFloat();
-            return new BowStatsPacket(bow, range, drawTime, speed);
+            float x = buf.readFloat();
+            float y = buf.readFloat();
+            return new BowStatsPacket(bow, range, drawTime, speed, x, y);
         }
 
         public static void handle(BowStatsPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
@@ -70,13 +78,16 @@ public class ArcheryNetworkingForge {
                     float range = packet.range;
                     int drawTime = packet.drawTime;
                     float speed = packet.speed;
+                    float x = packet.x;
+                    float y = packet.y;
 
                     if (bow instanceof BowProperties) {
                         ((BowProperties) bow).setSpecialProperties(true);
                         ((BowProperties) bow).setRange(range);
                         ((BowProperties) bow).setChargeTime(drawTime);
                         ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-//                        ArcheryExpansion.LOGGER.info("Bow Packet Received");
+                        ((BowProperties) bow).setOffsetX(x);
+                        ((BowProperties) bow).setOffsetY(y);
                     }
                 }
             });
@@ -84,9 +95,9 @@ public class ArcheryNetworkingForge {
         }
     }
 
-    public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {
+    public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
-                new BowStatsPacket(bow.getItem(), range, drawTime, speed));
+                new BowStatsPacket(bow.getItem(), range, drawTime, speed, x, y));
     }
 
 }

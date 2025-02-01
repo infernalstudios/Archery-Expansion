@@ -33,6 +33,7 @@
   "enchantment.archeryexp.pincushioning.desc": "The Quickdraw effect is permanently applied whilst the armour is worn.",
 
   "effect.archeryexp.quickdraw": "Quickdraw",
+  "effect.archeryexp.quickdraw.description": "After firing an arrow, the shooter is left vulnerable, making them susceptible to extra damage.",
 
   "entity.archeryexp.gold_arrow": "Gold-Coated Arrow",
   "entity.archeryexp.iron_arrow": "Iron-Coated Arrow",

@@ -26,20 +26,25 @@ public class ArcheryNetworkingFabric {
         float range = buf.readFloat();
         int drawTime = buf.readInt();
         float speed = buf.readFloat();
+        float x = buf.readFloat();
+        float y = buf.readFloat();
 
         ((BowProperties) bow).setSpecialProperties(true);
         ((BowProperties) bow).setRange(range);
         ((BowProperties) bow).setChargeTime(drawTime);
         ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-//        ArcheryExpansion.LOGGER.info("Bow Packet Received");
+        ((BowProperties) bow).setOffsetX(x);
+        ((BowProperties) bow).setOffsetY(y);
     }
 
-    public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {
+    public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {
         FriendlyByteBuf buf = PacketByteBufs.create();
         buf.writeItem(bow);
         buf.writeFloat(range);
         buf.writeInt(drawTime);
         buf.writeFloat(speed);
+        buf.writeFloat(x);
+        buf.writeFloat(y);
         ServerPlayNetworking.send(player, BowStatsPacket, buf);
     }
 

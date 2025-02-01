@@ -14,5 +14,8 @@
       "particles": false
     }
   ],
-  "recoil": 0.3
+  "recoil": 0.3,
+
+  "arrow_offset_x": 0.0,
+  "arrow_offset_y": 0.0
 }

@@ -27,5 +27,8 @@
       "speed": 1
     }
   ],
-  "recoil": 0.0
+  "recoil": 0.0,
+
+  "arrow_offset_x": 0.0,
+  "arrow_offset_y": 0.0
 }
