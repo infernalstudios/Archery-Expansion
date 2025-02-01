@@ -32,5 +32,10 @@
   "enchantment.archeryexp.fragility.desc": "Zırh, oklardan seviye başına +2 dayanıklılık hasarı alabilir.",
   "enchantment.archeryexp.pincushioning.desc": "Hızlı-Çekiş etkisi zırh giyiliyken kalıcı olarak uygulanır.",
 
-  "effect.archeryexp.quickdraw": "Hızlı-Çekiş"
+  "effect.archeryexp.quickdraw": "Hızlı-Çekiş",
+
+  "entity.archeryexp.gold_arrow": "Altın Kaplı Ok",
+  "entity.archeryexp.iron_arrow": "Demir Kaplı Ok",
+  "entity.archeryexp.diamond_arrow": "Elmas Kaplı Ok",
+  "entity.archeryexp.netherite_arrow": "Netherit Kaplı Ok"
 }
