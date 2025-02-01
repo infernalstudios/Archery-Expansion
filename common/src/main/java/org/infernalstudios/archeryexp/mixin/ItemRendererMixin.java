@@ -110,6 +110,6 @@ public class ItemRendererMixin {
         if (resource.isPresent()) {
             return arrowTex;
         }
-        return new ResourceLocation("textures/arrow_pull/arrow_pulling.png");
+        return new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/arrow_pull/iron_arrow_pulling.png");
     }
 }
