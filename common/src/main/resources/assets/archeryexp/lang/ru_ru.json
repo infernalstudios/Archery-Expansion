@@ -33,7 +33,8 @@
   "enchantment.archeryexp.pincushioning.desc": "Эффект оттяжки применяется при ношении постоянно.",
 
   "effect.archeryexp.quickdraw": "Оттяжка",
-
+  "effect.archeryexp.quickdraw.description": "После выстрела стрелок становится уязвимым, что делает его восприимчивым к дополнительному урону.",
+  
   "entity.archeryexp.gold_arrow": "Золотая стрела",
   "entity.archeryexp.iron_arrow": "Железная стрела",
   "entity.archeryexp.diamond_arrow": "Алмазная стрела",
