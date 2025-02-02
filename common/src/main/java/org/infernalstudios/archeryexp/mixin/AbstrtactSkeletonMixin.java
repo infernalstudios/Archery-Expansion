@@ -80,9 +80,13 @@ public abstract class AbstrtactSkeletonMixin {
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
 
+                    Vec3 lookVector = getSkeleton().getLookAngle();
+
+                    Vec3 inFrontPos = getSkeleton().position().add(lookVector.scale(particleData.getLookOffset()));
+
                     serverLevel.sendParticles(
                             particleData.getType(),
-                            getSkeleton().getX() + o.x, getSkeleton().getEyeY() + o.y, getSkeleton().getZ() + o.z,
+                            inFrontPos.x + o.x, getSkeleton().getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,
                             v.y,

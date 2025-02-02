@@ -12,12 +12,14 @@ public class ParticleData {
     private final Vec3 posOffset;
     private final Vec3 velocity;
     private final int count;
+    private final float lookOffset;
 
-    public ParticleData(String type, Vec3 offset, Vec3 velocity, int count) {
+    public ParticleData(String type, Vec3 offset, Vec3 velocity, int count, float lookOffset) {
         this.type = type;
         this.posOffset = offset;
         this.velocity = velocity;
         this.count = count;
+        this.lookOffset = lookOffset;
     }
 
     public SimpleParticleType getType() {
@@ -36,5 +38,9 @@ public class ParticleData {
 
     public int getCount() {
         return this.count;
+    }
+
+    public float getLookOffset() {
+        return this.lookOffset;
     }
 }

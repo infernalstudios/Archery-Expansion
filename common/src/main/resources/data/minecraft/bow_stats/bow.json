@@ -16,14 +16,15 @@
   ],
   "on_fire_particles": [
     {
-      "effect": "minecraft:poof",
-      "count": "3",
+      "effect": "archeryexp:quickdraw_shine",
+      "count": "1",
+      "look_offset": "0.75",
       "xoffset": "0",
-      "yoffset": "0",
+      "yoffset": "0.08",
       "zoffset": "0",
-      "xvel": "0.2",
-      "yvel": "0.2",
-      "zvel": "0.2",
+      "xvel": "0",
+      "yvel": "0",
+      "zvel": "0",
       "speed": 1
     }
   ],

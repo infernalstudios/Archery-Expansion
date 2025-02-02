@@ -96,8 +96,9 @@ public class BowStatsLoader {
                                         float vz = particleObj.has("zvel") ? particleObj.get("zvel").getAsFloat() : 0;
 
                                         int count = particleObj.has("count") ? particleObj.get("count").getAsInt() : 0;
+                                        float lookOffset = particleObj.has("look_offset") ? particleObj.get("look_offset").getAsFloat() : 0;
 
-                                        ParticleData data = new ParticleData(effect, new Vec3(x, y, z), new Vec3(vx, vy, vz), count);
+                                        ParticleData data = new ParticleData(effect, new Vec3(x, y, z), new Vec3(vx, vy, vz), count, lookOffset);
                                         particles.add(data);
                                     }
                                 }

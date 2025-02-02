@@ -15,6 +15,7 @@ public class ArcheryPariclesFabric {
     public static void registerParticles() {
         ARROW_TRAIL = register("arrow_trail");
         HEADSHOT = register("headshot");
+        QUICKDRAW_SHINE = register("quickdraw_shine");
     }
 
     public static SimpleParticleType register(String name) {

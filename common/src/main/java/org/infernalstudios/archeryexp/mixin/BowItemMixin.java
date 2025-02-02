@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 import org.infernalstudios.archeryexp.util.*;
+import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -131,9 +132,13 @@ public abstract class BowItemMixin implements BowProperties {
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
 
+                    Vec3 lookVector = entity.getLookAngle();
+
+                    Vec3 inFrontPos = entity.position().add(lookVector.scale(particleData.getLookOffset()));
+
                     serverLevel.sendParticles(
                             particleData.getType(),
-                            user.getX() + o.x, user.getEyeY() + o.y, user.getZ() + o.z,
+                            inFrontPos.x + o.x, user.getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,
                             v.y,
@@ -164,7 +169,7 @@ public abstract class BowItemMixin implements BowProperties {
         EntityType<?> type = arrow.getType();
 
         if (type == EntityType.ARROW) {
-            return 4;
+            return 0;
         }
         else if (type == ArcheryEntityTypes.Gold_Arrow) {
             return 10;
