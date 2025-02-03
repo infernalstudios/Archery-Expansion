@@ -21,15 +21,15 @@
   "enchantment.archeryexp.fragility": "箭伤诅咒",
   "enchantment.archeryexp.pincushioning": "刺猬诅咒",
 
-  "enchantment.archeryexp.scouting.desc": "拔弓时提升移动速度",
+  "enchantment.archeryexp.scouting.desc": "拉弓时提升移动速度",
   "enchantment.archeryexp.baby_face.desc": "射箭击中目标时获得速度效果",
   "enchantment.archeryexp.follow_through.desc": "射箭击中目标时获得力量效果",
-  "enchantment.archeryexp.grit.desc": "拔弓时获得抗性提升效果",
-  "enchantment.archeryexp.shattering.desc": "射箭时有5%概率对其中一件护甲额外按照总耐久损耗5%耐久值",
-  "enchantment.archeryexp.trajectory.desc": "拔弓时弹道可视化",
-  "enchantment.archeryexp.headshot.desc": "射箭击中目标的头部时会额外造成伤害（1.5+魔咒等级点伤害）",
+  "enchantment.archeryexp.grit.desc": "拉弓时获得抗性提升效果",
+  "enchantment.archeryexp.shattering.desc": "箭矢击中目标时有5%概率对其中一件护甲额外损耗5%耐久值",
+  "enchantment.archeryexp.trajectory.desc": "拉弓时弹道可视化",
+  "enchantment.archeryexp.headshot.desc": "箭矢击中目标的头部时会额外造成伤害（基础伤害1.5点，每级提升1点）",
 
-  "enchantment.archeryexp.fragility.desc": "穿戴时被箭矢击中有概率额外受到每级各2点伤害",
+  "enchantment.archeryexp.fragility.desc": "穿戴时被箭矢击中有概率受到额外伤害，每级提升2点",
   "enchantment.archeryexp.pincushioning.desc": "穿戴时获得先手劣势效果",
 
   "effect.archeryexp.quickdraw": "先手劣势"
