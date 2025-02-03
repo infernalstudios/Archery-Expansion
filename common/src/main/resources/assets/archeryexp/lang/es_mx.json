@@ -32,5 +32,10 @@
   "enchantment.archeryexp.fragility.desc": "Las armaduras son susceptibles de recibir 2+ de daño adicional de flechas por nivel.",
   "enchantment.archeryexp.pincushioning.desc": "El efecto de Carga Rápida se aplica permanentemente mientras se usa la armadura.",
 
-  "effect.archeryexp.quickdraw": "Carga Rápida"
+  "effect.archeryexp.quickdraw": "Carga Rápida",
+
+  "entity.archeryexp.gold_arrow": "Flecha Revestida de Oro",
+  "entity.archeryexp.iron_arrow": "Flecha Revestida de Hierro",
+  "entity.archeryexp.diamond_arrow": "Flecha Revestida de Diamante",
+  "entity.archeryexp.netherite_arrow": "Flecha Revestida de Netherite"
 }

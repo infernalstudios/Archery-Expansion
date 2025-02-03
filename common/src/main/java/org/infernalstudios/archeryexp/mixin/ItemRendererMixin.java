@@ -47,11 +47,12 @@ public class ItemRendererMixin {
                 if (entity instanceof LivingEntity user) {
                     if (stack.getItem() instanceof BowItem && ((BowProperties) stack.getItem()).hasSpecialProperties() &&
                             user.isUsingItem() && user.getUseItem() == stack) {
+                        BowProperties bowProp = (BowProperties) stack.getItem();
 
                         ItemStack arrow = user.getProjectile(stack);
 
                         if (!arrow.isEmpty()) {
-                            float pull = BowUtil.getPowerForDrawTime(stack.getUseDuration() - user.getUseItemRemainingTicks(), (BowProperties) stack.getItem());
+                            float pull = BowUtil.getPowerForDrawTime(stack.getUseDuration() - user.getUseItemRemainingTicks(), bowProp);
 
                             float posOffset = pull >= 0.9f ? 0.125f : (pull >= 0.65f ? 0.0625f : 0);
 
@@ -59,7 +60,7 @@ public class ItemRendererMixin {
 
                             poseStack.scale(-1.01f, -1.01f, -1.01f);
 
-                            poseStack.translate(-0.995f - posOffset, -0.995f + posOffset, -0.495f);
+                            poseStack.translate(-0.995f - posOffset + (0.125 * -bowProp.getOffsetX()), -0.995f + posOffset + (0.125 * bowProp.getOffsetY()), -0.495f);
 
                             if (arrow.is(Items.TIPPED_ARROW)) {
 
@@ -110,6 +111,6 @@ public class ItemRendererMixin {
         if (resource.isPresent()) {
             return arrowTex;
         }
-        return new ResourceLocation("textures/arrow_pull/arrow_pulling.png");
+        return new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/arrow_pull/iron_arrow_pulling.png");
     }
 }

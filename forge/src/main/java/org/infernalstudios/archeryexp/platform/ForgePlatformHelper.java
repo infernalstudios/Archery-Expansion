@@ -60,7 +60,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed) {
-        ArcheryNetworkingForge.sendBowStatsPacket(player, bow, range, drawTime, speed);
+    public void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {
+        ArcheryNetworkingForge.sendBowStatsPacket(player, bow, range, drawTime, speed, x, y);
     }
 }

@@ -1,0 +1,42 @@
+{
+  "item.archeryexp.gold_bow": "Лук с золотым улучшением",
+  "item.archeryexp.wooden_bow": "Деревянный лук",
+  "item.archeryexp.iron_bow": "Лук с железным улучшением",
+  "item.archeryexp.diamond_bow": "Лук с алмазным улучшением",
+  "item.archeryexp.netherite_bow": "Лук с незеритовым улучшением",
+
+  "item.archeryexp.gold_arrow": "Золотая стрела",
+  "item.archeryexp.iron_arrow": "Железная стрела",
+  "item.archeryexp.diamond_arrow": "Алмазная стрела",
+  "item.archeryexp.netherite_arrow": "Незеритовая стрела",
+
+  "enchantment.archeryexp.scouting": "Разведчик",
+  "enchantment.archeryexp.baby_face": "Недотрога",
+  "enchantment.archeryexp.follow_through": "Послесловие",
+  "enchantment.archeryexp.grit": "Стойкость",
+  "enchantment.archeryexp.shattering": "Разлом",
+  "enchantment.archeryexp.trajectory": "Траектория",
+  "enchantment.archeryexp.headshot": "Выстрел в голову",
+
+  "enchantment.archeryexp.fragility": "Проклятие хрупкости",
+  "enchantment.archeryexp.pincushioning": "Проклятие игольницы",
+
+  "enchantment.archeryexp.scouting.desc": "Увеличивает скорость ходьбы при зарядке лука.",
+  "enchantment.archeryexp.baby_face.desc": "Попадание в цель стрелой ускоряет владельца.",
+  "enchantment.archeryexp.follow_through.desc": "Попадание в цель стрелой даёт владельцу силу.",
+  "enchantment.archeryexp.grit.desc": "Даёт владельцу эффект сопротивления при зарядке лука.",
+  "enchantment.archeryexp.shattering.desc": "У стрел появляется 5% шанс нанести дополнительные 5% урона к прочности брони за уровень.",
+  "enchantment.archeryexp.trajectory.desc": "Отображает траекторию ваших стрел.",
+  "enchantment.archeryexp.headshot.desc": "Попавшие в голову стрелы наносят дополнительные 1.5+ урона за уровень.",
+
+  "enchantment.archeryexp.fragility.desc": "Броня восприимчива к получению 2+ дополнительного урона от стрел за уровень.",
+  "enchantment.archeryexp.pincushioning.desc": "Эффект оттяжки применяется при ношении постоянно.",
+
+  "effect.archeryexp.quickdraw": "Оттяжка",
+  "effect.archeryexp.quickdraw.description": "После выстрела стрелок становится уязвимым, что делает его восприимчивым к дополнительному урону.",
+  
+  "entity.archeryexp.gold_arrow": "Золотая стрела",
+  "entity.archeryexp.iron_arrow": "Железная стрела",
+  "entity.archeryexp.diamond_arrow": "Алмазная стрела",
+  "entity.archeryexp.netherite_arrow": "Незеритовая стрела"
+}

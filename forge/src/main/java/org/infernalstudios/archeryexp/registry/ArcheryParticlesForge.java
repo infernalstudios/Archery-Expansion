@@ -17,6 +17,8 @@ public class ArcheryParticlesForge {
             PARTICLES.register("arrow_trail", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> HEADSHOT =
             PARTICLES.register("headshot", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> QUICKDRAW_SHINE =
+            PARTICLES.register("quickdraw_shine", () -> new SimpleParticleType(true));
 
     public static void registerParticles(IEventBus eventBus) {
         PARTICLES.register(eventBus);
@@ -25,5 +27,6 @@ public class ArcheryParticlesForge {
     public static void registerParticlesCommon() {
         ArcheryParticles.ARROW_TRAIL = ARROW_TRAIL.get();
         ArcheryParticles.HEADSHOT = HEADSHOT.get();
+        ArcheryParticles.QUICKDRAW_SHINE = QUICKDRAW_SHINE.get();
     }
 }

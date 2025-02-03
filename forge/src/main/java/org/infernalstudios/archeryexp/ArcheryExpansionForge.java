@@ -34,6 +34,7 @@ import org.infernalstudios.archeryexp.items.BowStatsLoader;
 import org.infernalstudios.archeryexp.networking.ArcheryNetworkingForge;
 import org.infernalstudios.archeryexp.particles.ArrowTrailParticle;
 import org.infernalstudios.archeryexp.particles.HeadshotParticle;
+import org.infernalstudios.archeryexp.particles.QuickdrawShineParticle;
 import org.infernalstudios.archeryexp.platform.ForgePlatformHelper;
 import org.infernalstudios.archeryexp.registry.ArcheryEntityTypesForge;
 import org.infernalstudios.archeryexp.registry.ArcheryItemsForge;
@@ -107,6 +108,7 @@ public class ArcheryExpansionForge {
         public static void registerParticles(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ArcheryParticlesForge.ARROW_TRAIL.get(), ArrowTrailParticle.Factory::new);
             event.registerSpriteSet(ArcheryParticlesForge.HEADSHOT.get(), HeadshotParticle.Factory::new);
+            event.registerSpriteSet(ArcheryParticlesForge.QUICKDRAW_SHINE.get(), QuickdrawShineParticle.Factory::new);
         }
     }
 

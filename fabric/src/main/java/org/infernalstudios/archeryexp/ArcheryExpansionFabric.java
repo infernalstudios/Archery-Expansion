@@ -32,6 +32,7 @@ import org.infernalstudios.archeryexp.networking.ArcheryNetworkingFabric;
 import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.particles.ArrowTrailParticle;
 import org.infernalstudios.archeryexp.particles.HeadshotParticle;
+import org.infernalstudios.archeryexp.particles.QuickdrawShineParticle;
 import org.infernalstudios.archeryexp.registry.ArcheryEntityTypesFabric;
 import org.infernalstudios.archeryexp.registry.ArcheryItemsFabric;
 import org.infernalstudios.archeryexp.registry.ArcheryPariclesFabric;
@@ -92,6 +93,7 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
 
         ParticleFactoryRegistry.getInstance().register(ArcheryParticles.ARROW_TRAIL, ArrowTrailParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ArcheryParticles.HEADSHOT, HeadshotParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ArcheryParticles.QUICKDRAW_SHINE, QuickdrawShineParticle.Factory::new);
 
         HudRenderCallback.EVENT.register(ArrowHudThing::renderBowBar);
 

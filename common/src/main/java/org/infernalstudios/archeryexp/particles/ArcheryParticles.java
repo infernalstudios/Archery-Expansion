@@ -9,5 +9,6 @@ public class ArcheryParticles {
 
     public static SimpleParticleType ARROW_TRAIL;
     public static SimpleParticleType HEADSHOT;
+    public static SimpleParticleType QUICKDRAW_SHINE;
 
 }

@@ -1,9 +1,13 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.enchants.ArcheryEnchants;
 import org.infernalstudios.archeryexp.entities.ArcheryEntityTypes;
 import org.infernalstudios.archeryexp.util.*;
+import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -50,6 +55,10 @@ public abstract class BowItemMixin implements BowProperties {
     private float recoil;
     @Unique
     private boolean hasSpecialProperties;
+    @Unique
+    private float offsetX;
+    @Unique
+    private float offsetY;
 
     @Unique
     private List<PotionData> effects = new ArrayList<>();
@@ -67,6 +76,8 @@ public abstract class BowItemMixin implements BowProperties {
         this.breakChance = 0;
         this.movementSpeedMultiplier = 0;
         this.recoil = 0;
+        this.offsetX = 0;
+        this.offsetY = 0;
 
         this.hasSpecialProperties = false;
     }
@@ -96,7 +107,10 @@ public abstract class BowItemMixin implements BowProperties {
         if (this.hasSpecialProperties) {
             float shoot = BowUtil.getPowerForDrawTime($$7, (BowProperties) getItem());
             arrow.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0f, shoot * getRange(), 1.0f);
-            arrow.setBaseDamage(getBaseDamage());
+
+            double damage = checkForArrowMatch(arrow, "caverns_and_chasms:large_arrow") ? getBaseDamage() + 4.0 : getBaseDamage();
+            arrow.setBaseDamage(damage);
+
             arrow.setCritArrow(shoot == 1.0f);
 
             level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.SHATTERING, stack);
@@ -118,9 +132,13 @@ public abstract class BowItemMixin implements BowProperties {
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
 
+                    Vec3 lookVector = entity.getLookAngle();
+
+                    Vec3 inFrontPos = entity.position().add(lookVector.scale(particleData.getLookOffset()));
+
                     serverLevel.sendParticles(
                             particleData.getType(),
-                            user.getX() + o.x, user.getEyeY() + o.y, user.getZ() + o.z,
+                            inFrontPos.x + o.x, user.getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,
                             v.y,
@@ -151,7 +169,7 @@ public abstract class BowItemMixin implements BowProperties {
         EntityType<?> type = arrow.getType();
 
         if (type == EntityType.ARROW) {
-            return 4;
+            return 0;
         }
         else if (type == ArcheryEntityTypes.Gold_Arrow) {
             return 10;
@@ -293,5 +311,30 @@ public abstract class BowItemMixin implements BowProperties {
     @Override
     public void setBreakingChance(float breakChance) {
         this.breakChance = breakChance;
+    }
+
+    @Unique
+    public boolean checkForArrowMatch(Entity entity, String entityId) {
+        return BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).equals(new ResourceLocation(entityId));
+    }
+
+    @Override
+    public float getOffsetX() {
+        return this.offsetX;
+    }
+
+    @Override
+    public void setOffsetX(float x) {
+        this.offsetX = x;
+    }
+
+    @Override
+    public float getOffsetY() {
+        return this.offsetY;
+    }
+
+    @Override
+    public void setOffsetY(float y) {
+        this.offsetY = y;
     }
 }

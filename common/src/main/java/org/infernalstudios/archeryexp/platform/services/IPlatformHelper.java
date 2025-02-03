@@ -50,5 +50,5 @@ public interface IPlatformHelper {
 
     void registerEnchantment(String name, Enchantment enchantment);
 
-    void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed);
+    void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y);
 }
