@@ -34,16 +34,6 @@ import java.util.UUID;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Shadow public abstract ItemStack getItemInHand(InteractionHand $$0);
-
-    @Shadow public abstract boolean isUsingItem();
-
-    @Shadow protected ItemStack useItem;
-
-    @Shadow protected int useItemRemaining;
-
-    @Shadow protected abstract void setLivingEntityFlag(int $$0, boolean $$1);
-
     @Unique
     private LivingEntity getLivingEntity() {
         return (LivingEntity) (Object) this;

@@ -35,8 +35,6 @@ import java.util.List;
 @Mixin(BowItem.class)
 public abstract class BowItemMixin implements BowProperties {
 
-    @Shadow public abstract InteractionResultHolder<ItemStack> use(Level $$0, Player $$1, InteractionHand $$2);
-
     @Unique
     private int cooldown;
     @Unique
@@ -110,6 +108,12 @@ public abstract class BowItemMixin implements BowProperties {
 
             double damage = checkForArrowMatch(arrow, "caverns_and_chasms:large_arrow") ? getBaseDamage() + 4.0 : getBaseDamage();
             arrow.setBaseDamage(damage);
+
+            // Duck Tape Solution :P
+            int $$12 = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
+            if ($$12 > 0) {
+                arrow.setBaseDamage(arrow.getBaseDamage() + (double)$$12 * 0.5 + 0.5);
+            }
 
             arrow.setCritArrow(shoot == 1.0f);
 

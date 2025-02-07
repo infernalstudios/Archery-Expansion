@@ -37,13 +37,10 @@ public abstract class PlayerMixin implements PlayerFOV {
 
     @Unique
     private double lastFOV;
-    @Unique
-    private boolean syncPacket;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, CallbackInfo ci) {
         this.lastFOV = 0;
-        this.syncPacket = false;
     }
 
     @Unique

@@ -1,6 +1,7 @@
 package org.infernalstudios.archeryexp.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -21,6 +22,7 @@ import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.client.MockItemRenderer;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
+import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,9 +60,9 @@ public class ItemRendererMixin {
 
                             poseStack.pushPose();
 
-                            poseStack.scale(-1.01f, -1.01f, -1.01f);
-
-                            poseStack.translate(-0.995f - posOffset + (0.125 * -bowProp.getOffsetX()), -0.995f + posOffset + (0.125 * bowProp.getOffsetY()), -0.495f);
+                            poseStack.scale(1.01f, 1.01f, 1.01f);
+                            poseStack.translate(0.995f + posOffset - (0.125 * -bowProp.getOffsetX()), 0.995f - posOffset - (0.125 * bowProp.getOffsetY()), 0.495f);
+                            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 
                             if (arrow.is(Items.TIPPED_ARROW)) {
 
@@ -69,22 +71,13 @@ public class ItemRendererMixin {
                                 ResourceLocation tipTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_tip.png");
                                 ResourceLocation shaftTex = new ResourceLocation("textures/arrow_pull/tipped_arrow_pulling_shaft.png");
 
-                                MockItemRenderer.PixelData[][] tipPixels =
-                                        MockItemRenderer.loadPixelData(tipTex, 16);
+                                MockItemRenderer.renderTintedItem(poseStack, bufferSource, light, tipTex, color);
+                                MockItemRenderer.renderItem(poseStack, bufferSource, light, shaftTex);
 
-                                MockItemRenderer.renderExtrudedSprite(tipPixels, 0.065f, poseStack, bufferSource, light, tipTex, color);
-
-                                MockItemRenderer.PixelData[][] shaftPixels =
-                                        MockItemRenderer.loadPixelData(shaftTex, 16);
-
-                                MockItemRenderer.renderExtrudedSprite(shaftPixels, 0.065f, poseStack, bufferSource, light, shaftTex, -1);
                             } else {
                                 ResourceLocation arrowTex = getArrowTexture(arrow);
 
-                                MockItemRenderer.PixelData[][] arrowPixels =
-                                        MockItemRenderer.loadPixelData(arrowTex, 16);
-
-                                MockItemRenderer.renderExtrudedSprite(arrowPixels, 0.065f, poseStack, bufferSource, light, arrowTex, -1);
+                                MockItemRenderer.renderItem(poseStack, bufferSource, light, arrowTex);
                             }
 
                             poseStack.popPose();

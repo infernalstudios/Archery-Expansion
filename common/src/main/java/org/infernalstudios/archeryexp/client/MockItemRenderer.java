@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -15,42 +16,32 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 
 public class MockItemRenderer {
-    public static class PixelData {
-        public final boolean isOpaque;
 
-        public PixelData(boolean isOpaque) {
-            this.isOpaque = isOpaque;
-        }
+    public static final float DEFAULT_THICKNESS = 0.065f;
+
+    public static void renderItem(PoseStack poseStack, MultiBufferSource bufferSource, int light, ResourceLocation texture) {
+        renderTintedItem(poseStack, bufferSource, light, texture, 0xFFFFFF);
     }
 
-    public static PixelData[][] loadPixelData(ResourceLocation texture, int alphaThreshold) {
-        try (InputStream input = Minecraft.getInstance().getResourceManager().getResource(texture).get().open()) {
-            BufferedImage image = ImageIO.read(input);
-            int width  = image.getWidth();
-            int height = image.getHeight();
+    public static void renderTintedItem(PoseStack poseStack, MultiBufferSource bufferSource, int light, ResourceLocation texture, int tint) {
+        int red = (tint >> 16) & 0xFF;
+        int green = (tint >> 8) & 0xFF;
+        int blue = tint & 0xFF;
 
-            PixelData[][] pixelData = new PixelData[width][height];
-
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    int argb  = image.getRGB(x, y);
-                    int alpha = (argb >> 24) & 0xFF;
-
-                    boolean isOpaque = (alpha >= alphaThreshold);
-                    pixelData[x][y] = new PixelData(isOpaque);
-                }
-            }
-            return pixelData;
-
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load image: " + texture, e);
-        }
+        renderTintedItem(poseStack, bufferSource, light, texture, red, green, blue);
     }
 
-    public static void renderExtrudedSprite(PixelData[][] pixelData, float thickness, PoseStack poseStack,
-                                            MultiBufferSource bufferSource, int light, ResourceLocation texture, int tint) {
+    public static void renderTintedItem(PoseStack poseStack, MultiBufferSource bufferSource, int light, ResourceLocation texture, int red, int green, int blue) {
+        Boolean[][] pixelData = loadPixelData(texture, 16);
+
+        renderItem(pixelData, poseStack, bufferSource, light, texture, DEFAULT_THICKNESS, red, green, blue);
+    }
+
+    public static void renderItem(Boolean[][] pixelData, PoseStack poseStack, MultiBufferSource bufferSource, int light, ResourceLocation texture, float thickness, int red, int green, int blue) {
+
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.entityCutout(texture));
 
         poseStack.pushPose();
@@ -58,30 +49,27 @@ public class MockItemRenderer {
         float halfZ = thickness * 0.5f;
 
         int width = pixelData.length;
-
         int height = (width > 0) ? pixelData[0].length : 0;
 
         Matrix4f pose = poseStack.last().pose();
-
         Matrix3f normal = poseStack.last().normal();
 
-        int red = 255;
-        int green = 255;
-        int blue = 255;
+        renderItem(pixelData, buffer, pose, normal, halfZ, light, width, height, red, green, blue);
 
-        if (tint != -1) {
-            red = (tint >> 16) & 0xFF;
-            green = (tint >> 8) & 0xFF;
-            blue = tint & 0xFF;
-        }
+        poseStack.popPose();
+    }
+
+
+    private static void renderItem(Boolean[][] pixelData, VertexConsumer buffer, Matrix4f pose, Matrix3f normal,
+                                   float halfZ, int light, int width, int height, int red, int green, int blue) {
 
         // Front face
         addQuad(
                 buffer, pose, normal,
-                0, 0, -halfZ,
-                1, 0, -halfZ,
-                1, 1, -halfZ,
-                0, 1, -halfZ,
+                0, 0, halfZ,
+                1, 0, halfZ,
+                1, 1, halfZ,
+                0, 1, halfZ,
                 computeUV(0, 0, 1, 1), computeUV(1, 0, 1, 1),
                 computeUV(1, 1, 1, 1), computeUV(0, 1, 1, 1),
                 light, 0, 0, 1, red, green, blue
@@ -90,10 +78,10 @@ public class MockItemRenderer {
         // Back face
         addQuad(
                 buffer, pose, normal,
-                1, 0, halfZ,
-                0, 0, halfZ,
-                0, 1, halfZ,
-                1, 1, halfZ,
+                1, 0, -halfZ,
+                0, 0, -halfZ,
+                0, 1, -halfZ,
+                1, 1, -halfZ,
                 computeUV(1, 0, 1, 1), computeUV(0, 0, 1, 1),
                 computeUV(0.0f, 1, 1, 1), computeUV(1, 1, 1, 1),
                 light, 0, 0, -1, red, green, blue
@@ -101,8 +89,8 @@ public class MockItemRenderer {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                PixelData pd = pixelData[x][y];
-                if (!pd.isOpaque) {
+                Boolean pd = pixelData[x][y];
+                if (!pd) {
                     continue;
                 }
 
@@ -111,58 +99,57 @@ public class MockItemRenderer {
                 float scaledXNext = (float) (x + 1) / width;
                 float scaledYNext = (float) (y + 1) / height;
 
-                if (x == 0 || !pixelData[x - 1][y].isOpaque) {
+                if (x == 0 || !pixelData[x - 1][y]) {
                     float[][] sideUV = computeVerticalSliceUV(x, y, y + 1, width, height);
                     addQuad(
                             buffer, pose, normal,
-                            scaledX, scaledY, halfZ,
-                            scaledX, scaledY, -halfZ,
-                            scaledX, scaledYNext, -halfZ,
                             scaledX, scaledYNext, halfZ,
+                            scaledX, scaledYNext, -halfZ,
+                            scaledX, scaledY, -halfZ,
+                            scaledX, scaledY, halfZ,
                             sideUV[0], sideUV[1], sideUV[2], sideUV[3],
                             light, -1, 0, 0, red, green, blue
                     );
                 }
-                if (x == width - 1 || !pixelData[x + 1][y].isOpaque) {
+                if (x == width - 1 || !pixelData[x + 1][y]) {
                     float[][] sideUV = computeVerticalSliceUV(x, y, y + 1, width, height);
                     addQuad(
                             buffer, pose, normal,
-                            scaledXNext, scaledY, -halfZ,
-                            scaledXNext, scaledY, halfZ,
-                            scaledXNext, scaledYNext, halfZ,
                             scaledXNext, scaledYNext, -halfZ,
+                            scaledXNext, scaledYNext, halfZ,
+                            scaledXNext, scaledY, halfZ,
+                            scaledXNext, scaledY, -halfZ,
                             sideUV[0], sideUV[1], sideUV[2], sideUV[3],
                             light, 1, 0, 0, red, green, blue
                     );
                 }
 
-                if (y == 0 || !pixelData[x][y - 1].isOpaque) {
+                if (y == 0 || !pixelData[x][y - 1]) {
                     float[][] sideUV = computeHorizontalSliceUV(x, x + 1, y, width, height);
                     addQuad(
                             buffer, pose, normal,
-                            scaledX, scaledY, -halfZ,
-                            scaledX, scaledY, halfZ,
-                            scaledXNext, scaledY, halfZ,
                             scaledXNext, scaledY, -halfZ,
+                            scaledXNext, scaledY, halfZ,
+                            scaledX, scaledY, halfZ,
+                            scaledX, scaledY, -halfZ,
                             sideUV[0], sideUV[1], sideUV[2], sideUV[3],
                             light, 0, -1, 0, red, green, blue
                     );
                 }
-                if (y == height - 1 || !pixelData[x][y + 1].isOpaque) {
+                if (y == height - 1 || !pixelData[x][y + 1]) {
                     float[][] sideUV = computeHorizontalSliceUV(x, x + 1, y, width, height);
                     addQuad(
                             buffer, pose, normal,
-                            scaledX, scaledYNext, halfZ,
-                            scaledX, scaledYNext, -halfZ,
-                            scaledXNext, scaledYNext, -halfZ,
                             scaledXNext, scaledYNext, halfZ,
+                            scaledXNext, scaledYNext, -halfZ,
+                            scaledX, scaledYNext, -halfZ,
+                            scaledX, scaledYNext, halfZ,
                             sideUV[0], sideUV[1], sideUV[2], sideUV[3],
                             light, 0, 1, 0, red, green, blue
                     );
                 }
             }
         }
-        poseStack.popPose();
     }
 
     private static float[] computeUV(float x, float y, float width, float height) {
@@ -233,5 +220,34 @@ public class MockItemRenderer {
                 .uv2(light)
                 .normal(normalMatrix, nx, ny, nz)
                 .endVertex();
+    }
+
+    public static Boolean[][] loadPixelData(ResourceLocation texture, int alphaThreshold) {
+        Optional<Resource> resourceOptional = Minecraft.getInstance().getResourceManager().getResource(texture);
+
+        if (resourceOptional.isEmpty()) {
+            throw new RuntimeException("Failed to load image: " + texture + " (Resource not found)");
+        }
+
+        try (InputStream input = resourceOptional.get().open()) {
+            BufferedImage image = ImageIO.read(input);
+            int width  = image.getWidth();
+            int height = image.getHeight();
+
+            Boolean[][] pixelData = new Boolean[width][height];
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    int argb  = image.getRGB(x, y);
+                    int alpha = (argb >> 24) & 0xFF;
+
+                    pixelData[x][y] = (alpha >= alphaThreshold);
+                }
+            }
+            return pixelData;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read image: " + texture, e);
+        }
     }
 }
