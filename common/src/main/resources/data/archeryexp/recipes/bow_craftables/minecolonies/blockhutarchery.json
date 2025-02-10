@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "archeryexp:wooden_bow"
+    },
+    "T": {
+      "item": "structurize:sceptergold"
+    },
+    "X": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "XTX",
+    "BBB",
+    "XXX"
+  ],
+  "result": {
+    "item": "minecolonies:blockhutarchery"
+  },
+  "show_notification": true
+}

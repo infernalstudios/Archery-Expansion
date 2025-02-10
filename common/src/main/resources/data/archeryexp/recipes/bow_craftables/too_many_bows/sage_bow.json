@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " SA",
+    " B ",
+    "AS "
+  ],
+  "key": {
+    "A": {
+      "item": "too_many_bows:power_crystal"
+    },
+    "B": {
+      "item": "archeryexp:wooden_bow"
+    },
+    "S": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "too_many_bows:ancient_sage_bow",
+    "count": 1
+  }
+}

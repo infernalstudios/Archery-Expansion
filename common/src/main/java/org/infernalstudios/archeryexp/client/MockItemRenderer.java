@@ -223,13 +223,9 @@ public class MockItemRenderer {
     }
 
     public static Boolean[][] loadPixelData(ResourceLocation texture, int alphaThreshold) {
-        Optional<Resource> resourceOptional = Minecraft.getInstance().getResourceManager().getResource(texture);
+        Resource resource = Minecraft.getInstance().getResourceManager().getResource(texture).orElseThrow();
 
-        if (resourceOptional.isEmpty()) {
-            throw new RuntimeException("Failed to load image: " + texture + " (Resource not found)");
-        }
-
-        try (InputStream input = resourceOptional.get().open()) {
+        try (InputStream input = resource.open()) {
             BufferedImage image = ImageIO.read(input);
             int width  = image.getWidth();
             int height = image.getHeight();

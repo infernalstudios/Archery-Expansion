@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "VLV",
+    " B "
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "V": {
+      "item": "minecraft:vine"
+    },
+    "L": {
+      "item": "minecraft:oak_log"
+    },
+    "B": {
+      "item": "archeryexp:wooden_bow"
+    }
+  },
+  "result": {
+    "item": "too_many_bows:verdant_vigor",
+    "count": 1
+  }
+}

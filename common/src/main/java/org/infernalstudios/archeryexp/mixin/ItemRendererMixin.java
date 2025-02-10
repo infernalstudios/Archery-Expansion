@@ -82,12 +82,10 @@ public class ItemRendererMixin {
 
                             poseStack.popPose();
                         }
-
                     }
                 }
             }
         }
-
     }
 
     @Unique

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "archeryexp:wooden_bow"
+    }
+  ],
+  "result": {
+    "item": "minecraft:bow",
+    "count": 1
+  }
+}

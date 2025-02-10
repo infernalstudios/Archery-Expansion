@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "LBL",
+    " D "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "L": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "B": {
+      "item": "archeryexp:wooden_bow"
+    },
+    "D": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "too_many_bows:radiance",
+    "count": 1
+  }
+}

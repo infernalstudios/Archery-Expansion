@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "MBM",
+    " P "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:crimson_planks"
+    },
+    "M": {
+      "item": "minecraft:magma_cream"
+    },
+    "B": {
+      "item": "archeryexp:wooden_bow"
+    },
+    "P": {
+      "item": "minecraft:nether_brick"
+    }
+  },
+  "result": {
+    "item": "too_many_bows:crimson_nexus",
+    "count": 1
+  }
+}

@@ -23,7 +23,6 @@ import org.infernalstudios.archeryexp.particles.ArcheryParticles;
 import org.infernalstudios.archeryexp.platform.Services;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
-import org.infernalstudios.archeryexp.util.PlayerFOV;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin implements PlayerFOV {
+public abstract class PlayerMixin {
 
     @Unique
     private double lastFOV;
@@ -160,15 +159,5 @@ public abstract class PlayerMixin implements PlayerFOV {
         int maxDurability = item.getMaxDamage();
         int currentDamage = item.getTag() == null ? 0 : item.getTag().getInt("Damage");
         return maxDurability - currentDamage;
-    }
-
-    @Override
-    public double getPlayerFOVWithoutBow() {
-        return this.lastFOV;
-    }
-
-    @Override
-    public void setPlayerFOVWithoutBow(double fov) {
-        this.lastFOV = fov;
     }
 }
