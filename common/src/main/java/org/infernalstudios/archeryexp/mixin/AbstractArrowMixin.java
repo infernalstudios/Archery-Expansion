@@ -34,8 +34,10 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
     @Unique
     private int headshotLvl;
 
+    // The weird name with the mod ID prefixed is to avoid collisions with other mods that have mixins which add methods of the same name.
+    // This method was previously named "getArrow".
     @Unique
-    private AbstractArrow getArrow() {
+    private AbstractArrow archeryexp$self() {
         return (AbstractArrow) (Object) this;
     }
 
@@ -57,7 +59,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
 
             double headPosition = living.position().add(0.0, living.getDimensions(living.getPose()).height * 0.85, 0.0).y - 0.17;
 
-            if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && getArrow().position().y > headPosition && living.getType().is(ArcheryTags.HeadshotWhitelist)) {
+            if (getHeadshotLevel() > 0 && living.canBeHitByProjectile() && archeryexp$self().position().y > headPosition && living.getType().is(ArcheryTags.HeadshotWhitelist)) {
                 hurtAmount += getHeadshotLevel() * 2;
                 playSound = true;
                 if (living.level() instanceof ServerLevel serverLevel) {
@@ -73,7 +75,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
                 }
             }
 
-            if (playSound && getArrow().getOwner() instanceof Player player) {
+            if (playSound && archeryexp$self().getOwner() instanceof Player player) {
                 entity.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_HIT_PLAYER, entity.getSoundSource(), 1, 1);
             }
         }
@@ -97,7 +99,7 @@ public abstract class AbstractArrowMixin implements ArrowProperties {
                 }
             });
 
-            Entity arrowOwner = getArrow().getOwner();
+            Entity arrowOwner = archeryexp$self().getOwner();
 
             if (arrowOwner instanceof LivingEntity user) {
                 user.getArmorSlots().forEach(stack -> {

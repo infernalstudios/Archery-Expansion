@@ -1,10 +1,7 @@
 package org.infernalstudios.archeryexp.mixin;
 
-import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,24 +18,26 @@ public abstract class LocalPlayerMixin {
 
     @Shadow protected int sprintTriggerTime;
 
+    // The weird name with the mod ID prefixed is to avoid collisions with other mods that have mixins which add methods of the same name.
+    // This method was previously named "getPlayer".
     @Unique
-    private LocalPlayer getPlayer() {
+    private LocalPlayer archeryexp$self() {
         return (LocalPlayer) (Object) this;
     }
 
     @Inject(method = "serverAiStep", at = @At("TAIL"))
     private void bowSlowdown(CallbackInfo ci) {
 
-        ItemStack bowStack = getPlayer().getUseItem();
+        ItemStack bowStack = archeryexp$self().getUseItem();
 
-        if (getPlayer().isUsingItem() && !getPlayer().isPassenger() && this.isControlledCamera()
+        if (archeryexp$self().isUsingItem() && !archeryexp$self().isPassenger() && this.isControlledCamera()
                 && bowStack.getItem() instanceof BowItem) {
 
             BowProperties bow = (BowProperties) bowStack.getItem();
 
             if (bow.hasSpecialProperties()) {
-                getPlayer().xxa /= 0.2f; // side
-                getPlayer().zza /= 0.2f; // front/back
+                archeryexp$self().xxa /= 0.2f; // side
+                archeryexp$self().zza /= 0.2f; // front/back
             }
         }
     }
