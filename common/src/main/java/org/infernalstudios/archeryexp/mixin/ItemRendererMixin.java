@@ -12,7 +12,6 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +21,6 @@ import org.infernalstudios.archeryexp.ArcheryExpansion;
 import org.infernalstudios.archeryexp.client.MockItemRenderer;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
-import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -75,7 +73,7 @@ public class ItemRendererMixin {
                                 MockItemRenderer.renderItem(poseStack, bufferSource, light, shaftTex);
 
                             } else {
-                                ResourceLocation arrowTex = getArrowTexture(arrow);
+                                ResourceLocation arrowTex = archeryexp$getArrowTexture(arrow);
 
                                 MockItemRenderer.renderItem(poseStack, bufferSource, light, arrowTex);
                             }
@@ -88,8 +86,10 @@ public class ItemRendererMixin {
         }
     }
 
+    // The weird name with the mod ID prefixed is to avoid collisions with other mods that have mixins which add methods of the same name.
+    // This method was previously named "getArrowTexture".
     @Unique
-    private ResourceLocation getArrowTexture(ItemStack arrow) {
+    private ResourceLocation archeryexp$getArrowTexture(ItemStack arrow) {
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
         ResourceLocation arrowResource = BuiltInRegistries.ITEM.getKey(arrow.getItem());
