@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -36,8 +35,10 @@ public abstract class AbstrtactSkeletonMixin {
 
     @Shadow public abstract void setItemSlot(EquipmentSlot $$0, ItemStack $$1);
 
+    // The weird name with the mod ID prefixed is to avoid collisions with other mods that have mixins which add methods of the same name.
+    // This method was previously named "getSkeleton".
     @Unique
-    private AbstractSkeleton getSkeleton() {
+    private AbstractSkeleton archeryexp$self() {
         return (AbstractSkeleton) (Object) this;
     }
 
@@ -51,17 +52,17 @@ public abstract class AbstrtactSkeletonMixin {
     )
     private void rangedAttack(LivingEntity target, float $$1, CallbackInfo ci, ItemStack $$2, AbstractArrow arrow, double $$4, double $$5, double $$6, double $$7) {
 
-        ItemStack stack = getSkeleton().getMainHandItem();
+        ItemStack stack = archeryexp$self().getMainHandItem();
 
         int level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
         if (level > 0) {
-            stack.hurtAndBreak(level, getSkeleton(), (ignore) -> {});
+            stack.hurtAndBreak(level, archeryexp$self(), (ignore) -> {});
         }
 
         BowProperties bow = (BowProperties) stack.getItem();
 
         if (bow.hasSpecialProperties()) {
-            arrow.shootFromRotation(getSkeleton(), getSkeleton().getXRot(), getSkeleton().getYRot(), 0.0f, 1.6f, (float)(14 - getSkeleton().level().getDifficulty().getId() * 4));
+            arrow.shootFromRotation(archeryexp$self(), archeryexp$self().getXRot(), archeryexp$self().getYRot(), 0.0f, 1.6f, (float)(14 - archeryexp$self().level().getDifficulty().getId() * 4));
             arrow.setBaseDamage(bow.getBaseDamage());
 
             level = EnchantmentHelper.getItemEnchantmentLevel(ArcheryEnchants.SHATTERING, stack);
@@ -71,22 +72,22 @@ public abstract class AbstrtactSkeletonMixin {
             ((ArrowProperties) arrow).setHeadshotLevel(level);
 
             bow.getEffects().forEach(potionData -> {
-                getSkeleton().addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
+                archeryexp$self().addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
             });
 
             bow.getParticles().forEach(particleData -> {
-                if (getSkeleton().level() instanceof ServerLevel serverLevel) {
+                if (archeryexp$self().level() instanceof ServerLevel serverLevel) {
 
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
 
-                    Vec3 lookVector = getSkeleton().getLookAngle();
+                    Vec3 lookVector = archeryexp$self().getLookAngle();
 
-                    Vec3 inFrontPos = getSkeleton().position().add(lookVector.scale(particleData.getLookOffset()));
+                    Vec3 inFrontPos = archeryexp$self().position().add(lookVector.scale(particleData.getLookOffset()));
 
                     serverLevel.sendParticles(
                             particleData.getType(),
-                            inFrontPos.x + o.x, getSkeleton().getEyeY() + o.y, inFrontPos.z() + o.z,
+                            inFrontPos.x + o.x, archeryexp$self().getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,
                             v.y,
@@ -106,7 +107,7 @@ public abstract class AbstrtactSkeletonMixin {
             )
     )
     private boolean modifyWeaponHand(ItemStack instance, Item $$0, Operation<Boolean> original) {
-        ItemStack handItem = getSkeleton().getMainHandItem();
+        ItemStack handItem = archeryexp$self().getMainHandItem();
         return original.call(instance, $$0) ||  handItem.getItem() instanceof BowItem;
     }
 }

@@ -42,18 +42,20 @@ public abstract class PlayerMixin {
         this.lastFOV = 0;
     }
 
+    // The weird name with the mod ID prefixed is to avoid collisions with other mods that have mixins which add methods of the same name.
+    // This method was previously named "getPlayer".
     @Unique
-    private Player getPlayer() {
+    private Player archeryexp$player() {
         return (Player) (Object) this;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void playerTick(CallbackInfo ci) {
 
-        Player user = getPlayer();
+        Player user = archeryexp$player();
         ItemStack bowStack = user.getUseItem();
 
-        AttributeInstance speedAttribute = getPlayer().getAttribute(Attributes.MOVEMENT_SPEED);
+        AttributeInstance speedAttribute = user.getAttribute(Attributes.MOVEMENT_SPEED);
 
         if (user.isUsingItem() && bowStack.getItem() instanceof BowItem bow) {
 
@@ -88,7 +90,7 @@ public abstract class PlayerMixin {
             }
         }
 
-        if (!getPlayer().level().isClientSide()) {
+        if (!archeryexp$player().level().isClientSide()) {
             if (!ArcheryExpansion.bowStatPlayerList.contains((ServerPlayer) user)) {
                 for (Item item : BuiltInRegistries.ITEM) {
                     if (item instanceof BowItem bowItem) {
@@ -113,7 +115,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void applyQuickshot(Entity target, CallbackInfo ci) {
-        if (isCritting(target) && getPlayer().getMainHandItem().is(ItemTags.AXES)) {
+        if (isCritting(target) && archeryexp$player().getMainHandItem().is(ItemTags.AXES)) {
             LivingEntity living = (LivingEntity) target;
 
             living.getHandSlots().forEach(stack -> {
@@ -139,17 +141,17 @@ public abstract class PlayerMixin {
     @Unique
     private boolean isCritting(Entity target) {
         // Borrowing this from player
-        float $$4 = getPlayer().getAttackStrengthScale(0.5F);
+        float $$4 = archeryexp$player().getAttackStrengthScale(0.5F);
         boolean $$5 = $$4 > 0.9F;
         boolean $$8 = $$5
-                && getPlayer().fallDistance > 0.0F
-                && !getPlayer().onGround()
-                && !getPlayer().onClimbable()
-                && !getPlayer().isInWater()
-                && !getPlayer().hasEffect(MobEffects.BLINDNESS)
-                && !getPlayer().isPassenger()
+                && archeryexp$player().fallDistance > 0.0F
+                && !archeryexp$player().onGround()
+                && !archeryexp$player().onClimbable()
+                && !archeryexp$player().isInWater()
+                && !archeryexp$player().hasEffect(MobEffects.BLINDNESS)
+                && !archeryexp$player().isPassenger()
                 && target instanceof LivingEntity;
-        $$8 = $$8 && !getPlayer().isSprinting();
+        $$8 = $$8 && !archeryexp$player().isSprinting();
 
         return $$8;
     }
