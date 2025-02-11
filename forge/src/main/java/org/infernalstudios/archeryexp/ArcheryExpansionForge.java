@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.infernalstudios.archeryexp.client.ArrowHudThing;
 import org.infernalstudios.archeryexp.client.renderer.MaterialArrowRenderer;
 import org.infernalstudios.archeryexp.items.ArcheryItems;
@@ -165,7 +166,7 @@ public class ArcheryExpansionForge {
         private static void addToLootTable(LootTableLoadEvent event, ResourceLocation id, Item item, int min, int max) {
             if (event.getName().equals(id)) {
                 LootPool arrowPool = LootPool.lootPool()
-                        .name("my_arrow_pool")
+                        .name(ArcheryExpansion.MOD_ID + ":arrow_loottable_" + ForgeRegistries.ITEMS.getKey(item).getPath())
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(item).apply(SetItemCountFunction.setCount(
                                 UniformGenerator.between(min, max))
