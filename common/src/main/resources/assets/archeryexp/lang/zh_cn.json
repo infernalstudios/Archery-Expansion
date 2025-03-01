@@ -32,7 +32,7 @@
   "enchantment.archeryexp.fragility.desc": "穿戴时被箭矢击中有概率受到额外伤害，每级提升2点",
   "enchantment.archeryexp.pincushioning.desc": "穿戴时获得先手劣势效果",
 
-  "effect.archeryexp.quickdraw": "先手劣势"
+  "effect.archeryexp.quickdraw": "先手劣势",
   "effect.archeryexp.quickdraw.description": "射出箭矢后，射手会陷入脆弱状态，遭到攻击会受到额外伤害。",
 
   "entity.archeryexp.gold_arrow": "金覆层箭",
