@@ -1,10 +1,7 @@
 {
   "replace": false,
   "values": [
-    "archeryexp:gold_bow",
-    "archeryexp:iron_bow",
-    "archeryexp:diamond_bow",
-    "archeryexp:netherite_bow",
-    "archeryexp:wooden_bow"
+    "#archeryexp:ae_bows",
+    "minecraft:bow"
   ]
 }

@@ -38,5 +38,10 @@
   "entity.archeryexp.gold_arrow": "Gold-Coated Arrow",
   "entity.archeryexp.iron_arrow": "Iron-Coated Arrow",
   "entity.archeryexp.diamond_arrow": "Diamond-Coated Arrow",
-  "entity.archeryexp.netherite_arrow": "Netherite-Coated Arrow"
+  "entity.archeryexp.netherite_arrow": "Netherite-Coated Arrow",
+
+
+  "attribute.archeryexp.mainhand": "When Shot:",
+  "attribute.archeryexp.base_damage": "Base Damage",
+  "attribute.archeryexp.draw_cooldown": "Shoot Speed"
 }

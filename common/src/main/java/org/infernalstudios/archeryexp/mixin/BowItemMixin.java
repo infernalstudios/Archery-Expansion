@@ -164,6 +164,8 @@ public abstract class BowItemMixin implements BowProperties {
         }
     }
 
+
+
     @Unique
     private float getCursedBowBreakChance(AbstractArrow arrow) {
 
