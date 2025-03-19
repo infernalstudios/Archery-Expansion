@@ -16,9 +16,13 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class MockItemRenderer {
+
+    private static final Map<ResourceLocation, Boolean[][]> CACHE = new HashMap<>();
 
     public static final float DEFAULT_THICKNESS = 0.065f;
 
@@ -223,6 +227,8 @@ public class MockItemRenderer {
     }
 
     public static Boolean[][] loadPixelData(ResourceLocation texture, int alphaThreshold) {
+        if (CACHE.containsKey(texture)) return CACHE.get(texture);
+
         Resource resource = Minecraft.getInstance().getResourceManager().getResource(texture).orElseThrow();
 
         try (InputStream input = resource.open()) {
@@ -240,6 +246,9 @@ public class MockItemRenderer {
                     pixelData[x][y] = (alpha >= alphaThreshold);
                 }
             }
+
+            CACHE.putIfAbsent(texture, pixelData);
+
             return pixelData;
 
         } catch (IOException e) {

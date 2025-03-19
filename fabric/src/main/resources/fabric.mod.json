@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "id": "archeryexp",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "name": "Archery Expansion",
     "description": "Adds new bow tiers and mechanics to Minecraft!",
     "authors": [
@@ -21,7 +21,7 @@
             "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
         ],
         "client": [
-            "org.infernalstudios.archeryexp.ArcheryExpansionFabric"
+            "org.infernalstudios.archeryexp.ArcheryExpansionFabricClient"
         ]
     },
     "mixins": [

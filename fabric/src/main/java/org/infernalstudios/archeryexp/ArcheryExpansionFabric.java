@@ -41,7 +41,7 @@ import org.infernalstudios.archeryexp.util.BowUtil;
 
 import java.util.List;
 
-public class ArcheryExpansionFabric implements ModInitializer, ClientModInitializer {
+public class ArcheryExpansionFabric implements ModInitializer {
     
     @Override
     public void onInitialize() {
@@ -49,53 +49,12 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
         ArcheryPariclesFabric.registerParticles();
         ArcheryEntityTypesFabric.registerEntityTypes();
         ArcheryExpansion.init();
-        ArcheryNetworkingFabric.registerS2CPackets();
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new ArcheryExpansionFabricReloadListener());
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ArcheryExpansion.bowStatPlayerList.clear();
         });
-    }
-
-    @Override
-    public void onInitializeClient() {
-
-        String path = "textures/entity/projectiles/";
-        EntityRendererRegistry.register(ArcheryEntityTypes.Iron_Arrow, (ctx) ->
-                new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "iron_arrow.png")));
-        EntityRendererRegistry.register(ArcheryEntityTypes.Gold_Arrow, (ctx) ->
-                new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "golden_arrow.png")));
-        EntityRendererRegistry.register(ArcheryEntityTypes.Diamond_Arrow, (ctx) ->
-                new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "diamond_arrow.png")));
-        EntityRendererRegistry.register(ArcheryEntityTypes.Netherite_Arrow, (ctx) ->
-                new MaterialArrowRenderer(ctx, new ResourceLocation(ArcheryExpansion.MOD_ID, path + "netherite_arrow.png")));
-
-
-        List<Item> items = List.of(ArcheryItems.Gold_Bow, ArcheryItems.Iron_Bow, ArcheryItems.Diamond_Bow, ArcheryItems.Netherite_Bow,
-                ArcheryItems.Wooden_Bow, Items.BOW);
-
-        items.forEach(item -> {
-            FabricModelPredicateProviderRegistry.register(item,
-                    new ResourceLocation("drawing"), (stack, world, entity, seed) ->
-                            entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
-
-            FabricModelPredicateProviderRegistry.register(item, new ResourceLocation("draw"), (stack, world, entity, seed) -> {
-                if (entity == null || entity.getUseItem() != stack) {
-                    return 0.0F;
-                }
-
-                BowProperties properties = (BowProperties) stack.getItem();
-
-                return BowUtil.getPowerForDrawTime(stack.getUseDuration() - entity.getUseItemRemainingTicks(), properties);
-            });
-        });
-
-        ParticleFactoryRegistry.getInstance().register(ArcheryParticles.ARROW_TRAIL, ArrowTrailParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(ArcheryParticles.HEADSHOT, HeadshotParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(ArcheryParticles.QUICKDRAW_SHINE, QuickdrawShineParticle.Factory::new);
-
-        HudRenderCallback.EVENT.register(ArrowHudThing::renderBowBar);
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, table, source) -> {
             addToLootTable(table, id, BuiltInLootTables.PILLAGER_OUTPOST, ArcheryItems.Iron_Arrow, 0, 4);
@@ -110,7 +69,7 @@ public class ArcheryExpansionFabric implements ModInitializer, ClientModInitiali
 
             addToLootTable(table, id, BuiltInLootTables.BASTION_TREASURE, ArcheryItems.Netherite_Arrow, 0, 2);
         });
-    }
+        }
 
     public class ArcheryExpansionFabricReloadListener implements SimpleSynchronousResourceReloadListener {
         @Override
