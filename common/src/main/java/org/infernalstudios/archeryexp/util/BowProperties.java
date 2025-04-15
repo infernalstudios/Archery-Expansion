@@ -54,4 +54,8 @@ public interface BowProperties {
     float getOffsetY();
 
     void setOffsetY(float range);
+
+    boolean hasDescText();
+
+    void setHasDescText(boolean hasDescText);
 }

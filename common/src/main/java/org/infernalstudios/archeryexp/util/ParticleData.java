@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
+
 public class ParticleData {
     private final String type;
     private final Vec3 posOffset;
@@ -22,7 +24,7 @@ public class ParticleData {
         this.lookOffset = lookOffset;
     }
 
-    public SimpleParticleType getType() {
+    public @Nullable SimpleParticleType getType() {
         ResourceLocation location = new ResourceLocation(this.type);
 
         return (SimpleParticleType) BuiltInRegistries.PARTICLE_TYPE.get(location);

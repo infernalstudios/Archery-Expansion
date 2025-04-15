@@ -1,8 +1,13 @@
 package org.infernalstudios.archeryexp.mixin;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -28,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(BowItem.class)
-public abstract class BowItemMixin implements BowProperties {
+public abstract class BowItemMixin extends ItemMixin implements BowProperties {
 
     @Unique
     private int cooldown;
@@ -52,6 +57,8 @@ public abstract class BowItemMixin implements BowProperties {
     private float offsetX;
     @Unique
     private float offsetY;
+    @Unique
+    private boolean hasDescText;
 
     @Unique
     private List<PotionData> effects = new ArrayList<>();
@@ -71,6 +78,7 @@ public abstract class BowItemMixin implements BowProperties {
         this.recoil = 0;
         this.offsetX = 0;
         this.offsetY = 0;
+        this.hasDescText = true;
 
         this.hasSpecialProperties = false;
     }
@@ -123,12 +131,20 @@ public abstract class BowItemMixin implements BowProperties {
             user.getCooldowns().addCooldown(archeryexp$self(), getBowCooldown());
 
             this.effects.forEach(potionData -> {
-                user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(),
-                        potionData.getParticles(), potionData.getParticles()));
+
+                MobEffect effect = potionData.getEffect();
+
+                if (effect != null) {
+                    user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(),
+                            potionData.getParticles(), potionData.getParticles()));
+                }
             });
 
             this.particles.forEach(particleData -> {
-                if (user.level() instanceof ServerLevel serverLevel) {
+
+                SimpleParticleType particle = particleData.getType();
+
+                if (user.level() instanceof ServerLevel serverLevel && particle != null) {
 
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
@@ -138,7 +154,7 @@ public abstract class BowItemMixin implements BowProperties {
                     Vec3 inFrontPos = entity.position().add(lookVector.scale(particleData.getLookOffset()));
 
                     serverLevel.sendParticles(
-                            particleData.getType(),
+                            particle,
                             inFrontPos.x + o.x, user.getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,
@@ -164,7 +180,23 @@ public abstract class BowItemMixin implements BowProperties {
         }
     }
 
+    @Override
+    public void appendCustomAEBowText(ItemStack $$0, Level $$1, List<Component> tooltip, TooltipFlag $$3, CallbackInfo ci) {
+        super.appendCustomAEBowText($$0, $$1, tooltip, $$3, ci);
 
+        if (this.hasSpecialProperties && this.hasDescText) {
+
+            tooltip.add(Component.literal(" "));
+
+            tooltip.add(Component.translatable("attribute.archeryexp.mainhand").setStyle(Style.EMPTY.applyFormat(ChatFormatting.GRAY)));
+
+            tooltip.add(Component.literal(" " + getBaseDamage() + " ")
+                    .append(Component.translatable("attribute.archeryexp.base_damage")).setStyle(Style.EMPTY.applyFormat(ChatFormatting.DARK_GREEN)));
+
+            tooltip.add(Component.literal(" " + getBowCooldown() + " ")
+                    .append(Component.translatable("attribute.archeryexp.draw_cooldown")).setStyle(Style.EMPTY.applyFormat(ChatFormatting.DARK_GREEN)));
+        }
+    }
 
     @Unique
     private float getCursedBowBreakChance(AbstractArrow arrow) {
@@ -339,5 +371,15 @@ public abstract class BowItemMixin implements BowProperties {
     @Override
     public void setOffsetY(float y) {
         this.offsetY = y;
+    }
+
+    @Override
+    public void setHasDescText(boolean hasDescText) {
+        this.hasDescText = hasDescText;
+    }
+
+    @Override
+    public boolean hasDescText() {
+        return this.hasDescText;
     }
 }

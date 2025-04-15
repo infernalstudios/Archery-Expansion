@@ -2,7 +2,9 @@ package org.infernalstudios.archeryexp.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -72,11 +74,20 @@ public abstract class AbstrtactSkeletonMixin {
             ((ArrowProperties) arrow).setHeadshotLevel(level);
 
             bow.getEffects().forEach(potionData -> {
-                archeryexp$self().addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(), true, true));
+
+                MobEffect effect = potionData.getEffect();
+
+                if (effect != null) {
+                    archeryexp$self().addEffect(new MobEffectInstance(effect, potionData.getLength(), potionData.getLevel(), true, true));
+                }
+
             });
 
             bow.getParticles().forEach(particleData -> {
-                if (archeryexp$self().level() instanceof ServerLevel serverLevel) {
+
+                SimpleParticleType particle = particleData.getType();
+
+                if (archeryexp$self().level() instanceof ServerLevel serverLevel && particle != null) {
 
                     Vec3 o = particleData.getPosOffset();
                     Vec3 v = particleData.getVelocity();
@@ -86,7 +97,7 @@ public abstract class AbstrtactSkeletonMixin {
                     Vec3 inFrontPos = archeryexp$self().position().add(lookVector.scale(particleData.getLookOffset()));
 
                     serverLevel.sendParticles(
-                            particleData.getType(),
+                            particle,
                             inFrontPos.x + o.x, archeryexp$self().getEyeY() + o.y, inFrontPos.z() + o.z,
                             particleData.getCount(),
                             v.x,

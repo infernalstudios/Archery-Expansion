@@ -17,5 +17,7 @@
   "recoil": 0.4,
 
   "arrow_offset_x": 0.0,
-  "arrow_offset_y": 0.0
+  "arrow_offset_y": 0.0,
+
+  "has_description": true
 }

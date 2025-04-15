@@ -5,6 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 
+import javax.annotation.Nullable;
+
 public class PotionData {
     private final String effect;
     private final int level;
@@ -18,7 +20,7 @@ public class PotionData {
         this.particles = particles;
     }
 
-    public MobEffect getEffect() {
+    public @Nullable MobEffect getEffect() {
         ResourceLocation location = new ResourceLocation(this.effect);
 
         return BuiltInRegistries.MOB_EFFECT.get(location);

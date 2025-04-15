@@ -108,6 +108,8 @@ public class BowStatsLoader {
                         float offset_X = json.has("arrow_offset_x") ? json.get("arrow_offset_x").getAsFloat() : 0;
                         float offset_Y = json.has("arrow_offset_y") ? json.get("arrow_offset_y").getAsFloat() : 0;
 
+                        boolean hasDescText = json.has("has_description") ? json.get("has_description").getAsBoolean() : false;
+
                         ((BowProperties) bowItem).setSpecialProperties(true);
                         ((BowProperties) bowItem).setBowCooldown(cooldown);
                         ((BowProperties) bowItem).setBaseDamage(base_damage);
@@ -119,6 +121,7 @@ public class BowStatsLoader {
                         ((BowProperties) bowItem).setRecoil(recoil);
                         ((BowProperties) bowItem).setOffsetX(offset_X);
                         ((BowProperties) bowItem).setOffsetY(offset_Y);
+                        ((BowProperties) bowItem).setHasDescText(hasDescText);
                         ArcheryExpansion.bowStatPlayerList.clear();
 
                         if (potlistFilled) {

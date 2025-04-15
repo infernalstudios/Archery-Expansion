@@ -7,10 +7,11 @@
   "mixins": [
     "AbstractArrowMixin",
     "AbstrtactSkeletonMixin",
+    "ArrowDamageEnchantmentMixin",
     "BowItemMixin",
     "EnchantmentMenuMixin",
     "EnchantmentMixin",
-    "ArrowDamageEnchantmentMixin",
+    "ItemMixin",
     "LivingEntityMixin",
     "PlayerMixin"
   ],
