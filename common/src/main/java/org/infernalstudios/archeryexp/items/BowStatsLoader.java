@@ -63,11 +63,12 @@ public class BowStatsLoader {
                                         JsonObject potionObj = potionElement.getAsJsonObject();
 
                                         String effect = potionObj.has("effect") ? potionObj.get("effect").getAsString() : "minecraft:empty";
+                                        String fallback = potionObj.has("fallback") ? potionObj.get("fallback").getAsString() : "minecraft:empty";
                                         int lvl = potionObj.has("lvl") ? potionObj.get("lvl").getAsInt() : 1;
                                         int length = potionObj.has("length") ? potionObj.get("length").getAsInt() : 0;
                                         boolean particles = potionObj.has("particles") ? potionObj.get("particles").getAsBoolean() : false;
 
-                                        PotionData data = new PotionData(effect, lvl, length, particles);
+                                        PotionData data = new PotionData(effect, fallback, lvl, length, particles);
                                         effects.add(data);
                                     }
                                 }

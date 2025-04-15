@@ -76,9 +76,15 @@ public abstract class AbstrtactSkeletonMixin {
             bow.getEffects().forEach(potionData -> {
 
                 MobEffect effect = potionData.getEffect();
+                MobEffect fallback = potionData.getFallbackEffect();
 
                 if (effect != null) {
+
                     archeryexp$self().addEffect(new MobEffectInstance(effect, potionData.getLength(), potionData.getLevel(), true, true));
+
+                } else if (fallback != null) {
+
+                    archeryexp$self().addEffect(new MobEffectInstance(fallback, potionData.getLength(), potionData.getLevel(), true, true));
                 }
 
             });

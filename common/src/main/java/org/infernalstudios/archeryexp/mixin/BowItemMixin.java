@@ -133,9 +133,16 @@ public abstract class BowItemMixin extends ItemMixin implements BowProperties {
             this.effects.forEach(potionData -> {
 
                 MobEffect effect = potionData.getEffect();
+                MobEffect fallback = potionData.getFallbackEffect();
 
                 if (effect != null) {
-                    user.addEffect(new MobEffectInstance(potionData.getEffect(), potionData.getLength(), potionData.getLevel(),
+
+                    user.addEffect(new MobEffectInstance(effect, potionData.getLength(), potionData.getLevel(),
+                            potionData.getParticles(), potionData.getParticles()));
+
+                } else if (fallback != null) {
+
+                    user.addEffect(new MobEffectInstance(fallback, potionData.getLength(), potionData.getLevel(),
                             potionData.getParticles(), potionData.getParticles()));
                 }
             });
