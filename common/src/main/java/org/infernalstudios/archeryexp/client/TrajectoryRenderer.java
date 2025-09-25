@@ -14,6 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.common.enchants.ArcheryEnchants;
+import org.infernalstudios.archeryexp.util.ArcheryEnchantUtil;
 import org.infernalstudios.archeryexp.util.BowUtil;
 import org.infernalstudios.archeryexp.util.mixinterfaces.IBowProperties;
 import org.joml.Matrix3f;
@@ -27,24 +29,26 @@ public class TrajectoryRenderer {
         level.players().forEach(user -> {
             ItemStack item = user.getUseItem();
 
-            if (item.getItem() instanceof IBowProperties bow && user.isUsingItem()) {
+            ArcheryEnchantUtil.enchantmentAction(ArcheryEnchants.TRAJECTORY, user, item, true, lvl -> {
+                if (item.getItem() instanceof IBowProperties bow && user.isUsingItem()) {
 
-                BowUtil.getBowTrajectoryPoints(user, bow).forEach(vec3 -> {
-                    poseStack.pushPose();
+                    BowUtil.getBowTrajectoryPoints(user, bow).forEach(vec3 -> {
+                        poseStack.pushPose();
 
-                    Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-                    Vec3 cameraPos = camera.getPosition();
+                        Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+                        Vec3 cameraPos = camera.getPosition();
 
-                    poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
-                    poseStack.translate(vec3.x, vec3.y, vec3.z);
-                    poseStack.mulPose(Axis.YN.rotationDegrees(camera.getYRot()));
-                    poseStack.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
+                        poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
+                        poseStack.translate(vec3.x, vec3.y, vec3.z);
+                        poseStack.mulPose(Axis.YN.rotationDegrees(camera.getYRot()));
+                        poseStack.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
 
-                    VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
-                    renderFace(poseStack, vertexConsumer);
-                    poseStack.popPose();
-                });
-            }
+                        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
+                        renderFace(poseStack, vertexConsumer);
+                        poseStack.popPose();
+                    });
+                }
+            });
         });
     }
 
