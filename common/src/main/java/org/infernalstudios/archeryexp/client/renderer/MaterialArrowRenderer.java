@@ -3,20 +3,19 @@ package org.infernalstudios.archeryexp.client.renderer;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import org.infernalstudios.archeryexp.ArcheryExpansion;
+import org.infernalstudios.archeryexp.common.entities.arrow.MaterialArrow;
+import org.jetbrains.annotations.NotNull;
 
 
-public class MaterialArrowRenderer extends ArrowRenderer {
+public class MaterialArrowRenderer<T extends MaterialArrow> extends ArrowRenderer<T> {
 
-    public final ResourceLocation texture;
-
-    public MaterialArrowRenderer(EntityRendererProvider.Context context, ResourceLocation texture) {
+    public MaterialArrowRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.texture = texture;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Entity entity) {
-        return this.texture;
+    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
+        return new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/entity/projectiles/" + entity.getMaterial() + "_arrow.png");
     }
 }

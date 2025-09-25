@@ -6,28 +6,27 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import org.infernalstudios.archeryexp.util.mixinterfaces.IBowProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BowUtil {
 
-    public static List<Vec3> getBowTrajectoryPoints(Player player, Item bow) {
+    public static List<Vec3> getBowTrajectoryPoints(Player player, IBowProperties bow) {
         List<Vec3> trajectoryPoints;
-        BowProperties properties = (BowProperties) bow;
 
         int steps = 200;
 
-        if (properties.hasSpecialProperties()) {
+        if (bow.archeryexp$isSpecial()) {
 
             trajectoryPoints = calculateTrajectory(
                     player,
                     player.getUsedItemHand(),
-                    getPowerForDrawTime(player.getUseItem().getUseDuration() - player.getUseItemRemainingTicks(), properties),
-                    properties.getRange(),
+                    getPowerForDrawTime(player.getUseItem().getUseDuration() - player.getUseItemRemainingTicks(), bow),
+                    bow.archeryexp$getRange(),
                     -player.getYRot() - 90,
                     player.getXRot(),
                     0.05f,
@@ -97,8 +96,8 @@ public class BowUtil {
         return new Vec3(x, y, z);
     }
 
-    public static float getPowerForDrawTime(int drawTime, BowProperties stack) {
-        float power = (float) drawTime / stack.getChargeTime();
+    public static float getPowerForDrawTime(int drawTime, IBowProperties stack) {
+        float power = (float) drawTime / stack.archeryexp$getChargeTime();
         power = (power * power + power * 2.0f) / 3.0f;
 
         if (power > 1.0f) {

@@ -11,7 +11,8 @@
       "effect": "archeryexp:quickdraw",
       "lvl": 1,
       "length": 20,
-      "particles": false
+      "particles": false,
+      "tooltip": true
     }
   ],
   "recoil": 0.3,

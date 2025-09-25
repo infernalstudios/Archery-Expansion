@@ -11,7 +11,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
-import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.mixinterfaces.IBowProperties;
 
 import java.util.function.Supplier;
 
@@ -81,13 +81,13 @@ public class ArcheryNetworkingForge {
                     float x = packet.x;
                     float y = packet.y;
 
-                    if (bow instanceof BowProperties) {
-                        ((BowProperties) bow).setSpecialProperties(true);
-                        ((BowProperties) bow).setRange(range);
-                        ((BowProperties) bow).setChargeTime(drawTime);
-                        ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-                        ((BowProperties) bow).setOffsetX(x);
-                        ((BowProperties) bow).setOffsetY(y);
+                    if (bow instanceof IBowProperties) {
+                        ((IBowProperties) bow).archeryexp$setSpecial(true);
+                        ((IBowProperties) bow).archeryexp$setRange(range);
+                        ((IBowProperties) bow).archeryexp$setChargeTime(drawTime);
+                        ((IBowProperties) bow).archeryexp$setWalkSpeed(speed);
+                        ((IBowProperties) bow).archeryexp$setOffsetX(x);
+                        ((IBowProperties) bow).archeryexp$setOffsetY(y);
                     }
                 }
             });
@@ -96,8 +96,7 @@ public class ArcheryNetworkingForge {
     }
 
     public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {
-        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
-                new BowStatsPacket(bow.getItem(), range, drawTime, speed, x, y));
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new BowStatsPacket(bow.getItem(), range, drawTime, speed, x, y));
     }
 
 }

@@ -5,13 +5,12 @@ import net.fabricmc.fabric.api.networking.v1.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.infernalstudios.archeryexp.ArcheryExpansion;
-import org.infernalstudios.archeryexp.util.BowProperties;
+import org.infernalstudios.archeryexp.util.mixinterfaces.IBowProperties;
 
 public class ArcheryNetworkingFabric {
 
@@ -29,12 +28,12 @@ public class ArcheryNetworkingFabric {
         float x = buf.readFloat();
         float y = buf.readFloat();
 
-        ((BowProperties) bow).setSpecialProperties(true);
-        ((BowProperties) bow).setRange(range);
-        ((BowProperties) bow).setChargeTime(drawTime);
-        ((BowProperties) bow).setMovementSpeedMultiplier(speed);
-        ((BowProperties) bow).setOffsetX(x);
-        ((BowProperties) bow).setOffsetY(y);
+        ((IBowProperties) bow).archeryexp$setSpecial(true);
+        ((IBowProperties) bow).archeryexp$setRange(range);
+        ((IBowProperties) bow).archeryexp$setChargeTime(drawTime);
+        ((IBowProperties) bow).archeryexp$setWalkSpeed(speed);
+        ((IBowProperties) bow).archeryexp$setOffsetX(x);
+        ((IBowProperties) bow).archeryexp$setOffsetY(y);
     }
 
     public static void sendBowStatsPacket(ServerPlayer player, ItemStack bow, float range, int drawTime, float speed, float x, float y) {

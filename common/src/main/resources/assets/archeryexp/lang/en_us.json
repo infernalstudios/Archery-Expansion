@@ -42,6 +42,10 @@
 
 
   "attribute.archeryexp.mainhand": "When Shot:",
-  "attribute.archeryexp.base_damage": "Base Damage",
-  "attribute.archeryexp.draw_cooldown": "Shoot Speed"
+  "attribute.archeryexp.base_damage": "%s Base Damage",
+  "attribute.archeryexp.draw_cooldown": "%s Cooldown Time",
+  "attribute.archeryexp.charge_time": "%s Draw Speed",
+  "attribute.archeryexp.walk_speed_up": "%s Speed Increase",
+  "attribute.archeryexp.walk_speed_down": "%s Speed Decrease",
+  "attribute.archeryexp.recoil": "%s Recoil"
 }
