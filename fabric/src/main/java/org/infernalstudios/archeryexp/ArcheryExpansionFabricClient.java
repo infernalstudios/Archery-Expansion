@@ -48,7 +48,7 @@ public class ArcheryExpansionFabricClient implements ClientModInitializer {
 
         ItemTooltipCallback.EVENT.register((stack, context, lines) -> BowTooltipUtil.addBowTooltips(lines, stack));
         WorldRenderEvents.AFTER_ENTITIES.register(context -> {
-            TrajectoryRenderer.render(context.matrixStack(), context.consumers(), context.world());
+            TrajectoryRenderer.render(context.matrixStack(), context.consumers(), context.world(), context.tickDelta());
         });
     }
 }

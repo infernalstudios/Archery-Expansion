@@ -11,10 +11,10 @@ import org.infernalstudios.archeryexp.common.items.ArcheryItems;
 public class IronArrow extends MaterialArrow {
 
     public IronArrow(EntityType<? extends AbstractArrow> type, Level world) {
-        super(ArcheryEntityTypes.GOLD_ARROW.get(), world);
+        super(ArcheryEntityTypes.IRON_ARROW.get(), world);
     }
     public IronArrow(LivingEntity owner, Level world) {
-        super(ArcheryEntityTypes.GOLD_ARROW.get(), owner, world);
+        super(ArcheryEntityTypes.IRON_ARROW.get(), owner, world);
     }
 
     @Override

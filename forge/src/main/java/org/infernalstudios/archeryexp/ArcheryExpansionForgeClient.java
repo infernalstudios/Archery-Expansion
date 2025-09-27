@@ -75,7 +75,7 @@ public class ArcheryExpansionForgeClient {
             if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
                 return;
             }
-            TrajectoryRenderer.render(event.getPoseStack(), client.renderBuffers().bufferSource(), client.level);
+            TrajectoryRenderer.render(event.getPoseStack(), client.renderBuffers().bufferSource(), client.level, event.getPartialTick());
         }
     }
 

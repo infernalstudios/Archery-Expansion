@@ -25,14 +25,14 @@ public class TrajectoryRenderer {
 
     public static final ResourceLocation TEXTURE = new ResourceLocation(ArcheryExpansion.MOD_ID, "textures/trajectory_dot.png");
 
-    public static void render(PoseStack poseStack, MultiBufferSource bufferSource, ClientLevel level) {
+    public static void render(PoseStack poseStack, MultiBufferSource bufferSource, ClientLevel level, float delta) {
         level.players().forEach(user -> {
             ItemStack item = user.getUseItem();
 
             ArcheryEnchantUtil.enchantmentAction(ArcheryEnchants.TRAJECTORY, user, item, true, lvl -> {
                 if (item.getItem() instanceof IBowProperties bow && user.isUsingItem()) {
 
-                    BowUtil.getBowTrajectoryPoints(user, bow).forEach(vec3 -> {
+                    BowUtil.getBowTrajectoryPoints(user, bow, delta).forEach(vec3 -> {
                         poseStack.pushPose();
 
                         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();

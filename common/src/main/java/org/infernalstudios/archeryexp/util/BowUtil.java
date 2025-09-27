@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BowUtil {
 
-    public static List<Vec3> getBowTrajectoryPoints(Player player, IBowProperties bow) {
+    public static List<Vec3> getBowTrajectoryPoints(Player player, IBowProperties bow, float delta) {
         List<Vec3> trajectoryPoints;
 
         int steps = 200;
@@ -30,7 +30,8 @@ public class BowUtil {
                     -player.getYRot() - 90,
                     player.getXRot(),
                     0.05f,
-                    steps
+                    steps,
+                    delta
             );
         } else {
             trajectoryPoints = calculateTrajectory(
@@ -41,17 +42,18 @@ public class BowUtil {
                     -player.getYRot() - 90,
                     player.getXRot(),
                     0.05f,
-                    steps
+                    steps,
+                    delta
             );
         }
 
         return trajectoryPoints;
     }
 
-    private static List<Vec3> calculateTrajectory(LivingEntity user, InteractionHand hand, float power, float range, float yaw, float pitch, float gravity, int steps) {
+    private static List<Vec3> calculateTrajectory(LivingEntity user, InteractionHand hand, float power, float range, float yaw, float pitch, float gravity, int steps, float delta) {
         List<Vec3> points = new ArrayList<>();
 
-        Vec3 startPosition = user.getEyePosition(1.0f);
+        Vec3 startPosition = user.getEyePosition(delta);
 
         Vec3 direction = getDirectionVector(yaw, pitch).scale(power * range);
 
