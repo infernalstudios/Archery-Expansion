@@ -43,7 +43,7 @@ public class TrajectoryRenderer {
                         poseStack.mulPose(Axis.YN.rotationDegrees(camera.getYRot()));
                         poseStack.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
 
-                        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
+                        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.debugQuads());
                         renderFace(poseStack, vertexConsumer);
                         poseStack.popPose();
                     });
@@ -57,8 +57,8 @@ public class TrajectoryRenderer {
         Matrix4f m4f = pose.pose();
         Matrix3f m3f = pose.normal();
 
-        int min = -1;
-        int max = 1;
+        float min = -0.11f;
+        float max = 0.11f;
 
         vertex(vertexConsumer, m4f, m3f, max, min, 0, 1);
         vertex(vertexConsumer, m4f, m3f, min, min, 1, 1);
